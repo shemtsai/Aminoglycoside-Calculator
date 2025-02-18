@@ -79,14 +79,8 @@ ui <- dashboardPage(
             numericInput("interval_opt", "Dosing Interval (hours):", value = 24, min = 0, step = 0.1),
             hr(),
             selectInput("calc_mode", "Calculation Mode:",
-                       choices = c("Calculate from Peak/Trough Targets" = "peaktrough",
-                                 "Calculate from AUC Target" = "auc",
+                       choices = c("Calculate from AUC Target" = "auc",
                                  "Calculate from Dose" = "dose")),
-            conditionalPanel(
-              condition = "input.calc_mode == 'peaktrough'",
-              numericInput("target_cmax", "Target Peak (Cmax, mg/L):", value = 20, min = 0, step = 0.1),
-              numericInput("target_cmin", "Target Trough (Cmin, mg/L):", value = 1, min = 0, step = 0.1)
-            ),
             conditionalPanel(
               condition = "input.calc_mode == 'auc'",
               numericInput("target_auc", "Target AUC24 (mg·h/L):", value = 400, min = 0, step = 1)
@@ -98,7 +92,7 @@ ui <- dashboardPage(
             actionButton("optimize_dose", "Calculate", class = "btn-primary")
           ),
           box(
-            title = "Optimization Results",
+            title = "Results",
             status = "info",
             solidHeader = TRUE,
             width = 8,
@@ -179,6 +173,7 @@ server <- function(input, output, session) {
       (dose / (ke * vd)) * (24 / interval)
     }
     
+    # Calculate based on selected mode
     if (input$calc_mode == "peaktrough") {
       # Calculate dose from target peak
       new_dose <- (input$vd_opt * input$ke_opt * (1 - exp(-input$ke_opt * input$t_inf_opt)) * 
@@ -211,16 +206,17 @@ server <- function(input, output, session) {
     output$predicted_auc <- renderText({ paste("Predicted AUC24:", round(pred_auc24, 1), "mg·h/L") })
     
     # Generate optimization plot
-    time_seq <- seq(0, new_interval, by = 0.1)
+    time_seq <- seq(0, input$interval_opt, by = 0.1)
     conc_seq <- pred_peak * exp(-input$ke_opt * (time_seq - input$t_inf_opt))
+    conc_seq[time_seq < input$t_inf_opt] <- 0  # Zero concentration during infusion
     
     plot_data <- data.frame(Time = time_seq, Concentration = conc_seq)
     output$opt_plot <- renderPlot({
       ggplot(plot_data, aes(x = Time, y = Concentration)) +
         geom_line(color = "blue", size = 1) +
-        geom_hline(yintercept = input$target_cmax, linetype = "dashed", color = "red") +
-        geom_hline(yintercept = input$target_cmin, linetype = "dashed", color = "red") +
-        labs(title = "Predicted Concentration-Time Curve with Optimal Dosing",
+        geom_hline(yintercept = pred_peak, linetype = "dashed", color = "red", alpha = 0.5) +
+        geom_hline(yintercept = pred_trough, linetype = "dashed", color = "red", alpha = 0.5) +
+        labs(title = "Predicted Concentration-Time Curve",
              x = "Time (hours)", y = "Concentration (mg/L)") +
         theme_minimal()
     })
