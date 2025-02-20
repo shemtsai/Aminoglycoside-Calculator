@@ -1,5 +1,7 @@
-Not yet validated, still work in progress
+Not yet validated, still work in progress...
 
-Link below with deployed code on Shiny
+Open to any feedback/thoughts on other functionalities to add!
+
+Link below with deployed code on Shiny:
 
 https://shemtsai.shinyapps.io/shinyapp/
