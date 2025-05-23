@@ -12,7 +12,7 @@ library(ggplot2)
 library(shinydashboard)
 library(shinyTime)  # Load shinyTime for timeInput
 
-# Define UI
+# Set up UI
 ui <- dashboardPage(
   dashboardHeader(title = "Aminoglycoside Calculator"),
   dashboardSidebar(
@@ -134,24 +134,22 @@ ui <- dashboardPage(
   )
 )
 
-# Define server
+# Set up server
 server <- function(input, output, session) {
   # Function to convert time from POSIXct (HH:MM) to decimal time (fraction of a day)
   convert_time_to_decimal <- function(time_obj) {
     return(as.numeric(format(time_obj, "%H")) + as.numeric(format(time_obj, "%M")) / 60)
   }
-  # Function to calculate the difference between dose time and sample time
+  # Function to calculate the time differences
   calculate_time_difference <- function(dose_time, sample_time, infusion_time) {
     # Convert to numeric time (decimal hours)
     dose_time_decimal <- convert_time_to_decimal(dose_time)
     sample_time_decimal <- convert_time_to_decimal(sample_time)
-    
-    # Calculate the time difference, subtracting the infusion time
     time_diff <- sample_time_decimal - dose_time_decimal
     return(time_diff)
   }
   
-  # Standard PK Calculator Logic
+  # PK Calculator Logic
   observeEvent(input$calculate, {
     # Convert date and time inputs to POSIXct objects
     dose_datetime <- as.POSIXct(paste(input$dose_date, format(input$dose_time, "%H:%M:%S")))
@@ -162,8 +160,7 @@ server <- function(input, output, session) {
       # Original PK calculations based on concentrations and times
       ke <- log(input$c1 / input$c2) / (input$t2 - input$t1)
       t_half <- 0.693 / ke
-      
-      # Ensure ke is not zero before calculating cmax
+  
       if (ke != 0) {
         cmax <- input$c1 / exp(-ke * (input$t1 - input$t_inf))
       } else {
@@ -204,12 +201,10 @@ server <- function(input, output, session) {
       # Calculate time differences in hours
       t1_diff <- as.numeric(difftime(datetime1, dose_datetime, units = "hours")) - input$t_inf
       t2_diff <- as.numeric(difftime(datetime2, dose_datetime, units = "hours")) - input$t_inf
-      
-      # Now use these differences to calculate pharmacokinetic parameters
+    
       ke <- log(input$c1_date / input$c2_date) / (t2_diff - t1_diff)
       t_half <- 0.693 / ke
       
-      # Ensure ke is not zero before calculating cmax
       if (ke != 0) {
         cmax <- input$c1_date / exp(-ke * (t1_diff))
       } else {
@@ -251,24 +246,18 @@ server <- function(input, output, session) {
   
   # Dose Optimization Logic
   observeEvent(input$optimize_dose, {
-    # Function to calculate peak from dose
     calc_peak <- function(dose, vd, ke, t_inf) {
       (dose/(vd * ke * t_inf)) * (1 - exp(-ke * t_inf))
     }
-    
-    # Function to calculate trough from peak
     calc_trough <- function(peak, ke, interval, t_inf) {
       peak * exp(-ke * (interval - t_inf))
     }
-    
-    # Function to calculate AUC24 from dose
     calc_auc24 <- function(dose, vd, ke, interval) {
       (dose / (ke * vd)) * (24 / interval)
     }
     
     # Calculate based on selected mode
     if (input$calc_mode == "peaktrough") {
-      # Calculate dose from target peak
       new_dose <- (input$vd_opt * input$ke_opt * (1 - exp(-input$ke_opt * input$t_inf_opt)) * 
                    input$target_cmax * input$t_inf_opt) / (1 - exp(-input$ke_opt * input$t_inf_opt))
       
@@ -277,7 +266,6 @@ server <- function(input, output, session) {
       pred_auc24 <- calc_auc24(new_dose, input$vd_opt, input$ke_opt, input$interval_opt)
       
     } else if (input$calc_mode == "auc") {
-      # Calculate dose from target AUC24
       new_dose <- input$target_auc * input$ke_opt * input$vd_opt * (input$interval_opt / 24)
       
       pred_peak <- calc_peak(new_dose, input$vd_opt, input$ke_opt, input$t_inf_opt)
@@ -316,6 +304,4 @@ server <- function(input, output, session) {
   })
 }
 
-
-# Run the application
 shinyApp(ui, server)
