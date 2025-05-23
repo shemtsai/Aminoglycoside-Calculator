@@ -1,6 +1,6 @@
 Still work in progress...
 
-Open to any feedback/thoughts on other functionalities to add!
+Non-trapezoidal calculations of AUC- open to any feedback/thoughts on other functionalities to add!
 
 Link below with deployed code on Shiny:
 
