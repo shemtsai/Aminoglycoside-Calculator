@@ -272,7 +272,7 @@ server <- function(input, output, session) {
       pred_trough <- calc_trough(pred_peak, input$ke_opt, input$interval_opt, input$t_inf_opt)
       pred_auc24 <- input$target_auc
       
-    } else { # dose mode
+    } else {
       new_dose <- input$input_dose
       
       pred_peak <- calc_peak(new_dose, input$vd_opt, input$ke_opt, input$t_inf_opt)
