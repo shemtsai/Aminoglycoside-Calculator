@@ -10,7 +10,7 @@ if (length(new_packages)) install.packages(new_packages)
 library(shiny)
 library(ggplot2)
 library(shinydashboard)
-library(shinyTime)  # Load shinyTime for timeInput
+library(shinyTime) 
 
 # Set up UI
 ui <- dashboardPage(
