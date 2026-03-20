@@ -18,8 +18,6 @@
     --text:      #1e293b;
     --muted:     #64748b;
     --success:   #0d7a5f;
-    --danger:    #be123c;
-    --red-pt:    #ef4444;
     --radius:    12px;
     --shadow:    0 2px 16px rgba(14,116,144,0.08);
   }
@@ -34,7 +32,6 @@
     padding: 0 0 60px;
   }
 
-  /* ── Header ─────────────────────────────────────── */
   header {
     background: var(--primary);
     color: #fff;
@@ -58,7 +55,6 @@
     text-transform: uppercase;
   }
 
-  /* ── Tabs ────────────────────────────────────────── */
   .tab-bar {
     background: var(--primary);
     display: flex;
@@ -78,16 +74,12 @@
     transition: color .2s, border-color .2s;
     letter-spacing: 0.03em;
   }
-  .tab-btn.active {
-    color: #fff;
-    border-bottom-color: var(--accent2);
-  }
+  .tab-btn.active { color: #fff; border-bottom-color: var(--accent2); }
   .tab-btn:hover:not(.active) { color: rgba(255,255,255,.8); }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
-  /* ── Layout ──────────────────────────────────────── */
   .container { max-width: 1160px; margin: 0 auto; padding: 32px 24px 0; }
   .grid-2 { display: grid; grid-template-columns: 340px 1fr; gap: 24px; }
 
@@ -98,7 +90,6 @@
     .container { padding: 20px 14px 0; }
   }
 
-  /* ── Cards ───────────────────────────────────────── */
   .card {
     background: var(--surface);
     border-radius: var(--radius);
@@ -125,7 +116,6 @@
     flex-shrink: 0;
   }
 
-  /* ── Form elements ───────────────────────────────── */
   .form-group { margin-bottom: 14px; }
   label {
     display: block;
@@ -155,10 +145,8 @@
   }
   .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-  /* ── Radio toggle ────────────────────────────────── */
   .radio-group {
     display: flex;
-    gap: 0;
     border: 1.5px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
@@ -181,12 +169,8 @@
     line-height: 1.3;
   }
   .radio-group input[type="radio"] { display: none; }
-  .radio-group input[type="radio"]:checked + label {
-    background: var(--accent);
-    color: #fff;
-  }
+  .radio-group input[type="radio"]:checked + label { background: var(--accent); color: #fff; }
 
-  /* ── Buttons ─────────────────────────────────────── */
   .btn {
     width: 100%;
     padding: 11px;
@@ -200,21 +184,11 @@
     transition: transform .1s, box-shadow .15s, background .15s;
   }
   .btn:active { transform: scale(0.98); }
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(14,116,144,0.25);
-  }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(14,116,144,0.25); }
   .btn-primary:hover { background: #0e6480; box-shadow: 0 4px 14px rgba(14,116,144,0.35); }
-  .btn-success {
-    background: var(--success);
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(13,122,95,0.2);
-    margin-top: 8px;
-  }
+  .btn-success { background: var(--success); color: #fff; box-shadow: 0 2px 8px rgba(13,122,95,0.2); margin-top: 8px; }
   .btn-success:hover { background: #0a6650; }
 
-  /* ── Results grid ────────────────────────────────── */
   .results-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -227,40 +201,16 @@
     border-radius: 8px;
     padding: 12px 14px;
   }
-  .result-item .r-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
-  }
-  .result-item .r-value {
-    font-family: 'DM Mono', monospace;
-    font-size: 1.15rem;
-    font-weight: 500;
-    color: var(--accent);
-  }
-  .result-item .r-unit {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 1px;
-  }
+  .result-item .r-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .result-item .r-value { font-family: 'DM Mono', monospace; font-size: 1.15rem; font-weight: 500; color: var(--accent); }
+  .result-item .r-unit { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
   .result-item.highlight { border-color: var(--accent2); background: #ecfeff; }
   .result-item.highlight .r-value { color: var(--primary); }
 
-  .results-empty {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.85rem;
-    padding: 32px 0;
-    font-style: italic;
-  }
+  .results-empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 32px 0; font-style: italic; }
 
-  /* ── Plot canvas ─────────────────────────────────── */
   .chart-wrap { position: relative; height: 280px; }
 
-  /* ── Notification ────────────────────────────────── */
   #toast {
     position: fixed;
     bottom: 28px; right: 28px;
@@ -279,11 +229,103 @@
   }
   #toast.show { opacity: 1; transform: translateY(0); }
 
-  /* ── Conditional sections ────────────────────────── */
   .conditional { display: none; }
   .conditional.visible { display: block; }
 
-  /* ── Footer ──────────────────────────────────────── */
+  /* ── Equations panel ─────────────────────────────── */
+  .eq-toggle-wrap { margin-bottom: 18px; }
+
+  .eq-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: background .15s, border-color .15s;
+    box-shadow: var(--shadow);
+  }
+  .eq-toggle-btn:hover { background: #ecfeff; border-color: var(--accent2); }
+  .eq-toggle-btn .arrow { font-size: 0.65rem; transition: transform .25s; display: inline-block; }
+  .eq-toggle-btn.open .arrow { transform: rotate(180deg); }
+
+  .eq-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 26px 28px 22px;
+    margin-top: 12px;
+  }
+  .eq-panel.open { display: block; }
+
+  .eq-section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 20px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eq-section-title:first-child { margin-top: 0; }
+
+  .eq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 10px;
+  }
+
+  .eq-item {
+    background: #f6f9fc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 15px;
+  }
+  .eq-item .eq-name {
+    font-size: 0.69rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 9px;
+  }
+  .eq-item .eq-body {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--primary);
+    line-height: 2;
+  }
+  /* fraction helper */
+  .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 2px;
+    line-height: 1.25;
+    font-size: 0.8rem;
+  }
+  .frac .num { border-bottom: 1.5px solid var(--primary); padding: 0 3px 1px; }
+  .frac .den { padding: 1px 3px 0; }
+  .eq-item .eq-note {
+    font-size: 0.69rem;
+    color: var(--muted);
+    margin-top: 7px;
+    line-height: 1.55;
+    font-family: 'DM Sans', sans-serif;
+  }
+
   footer {
     margin-top: 48px;
     text-align: center;
@@ -294,8 +336,6 @@
   }
   footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-
-  .section-divider { margin: 20px 0 0; }
 </style>
 </head>
 <body>
@@ -308,253 +348,416 @@
 </header>
 
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('pk')">Standard PK Calculator</button>
-  <button class="tab-btn" onclick="switchTab('opt')">Dose Optimization</button>
+  <button class="tab-btn active" onclick="switchTab('pk', this)">Standard PK Calculator</button>
+  <button class="tab-btn" onclick="switchTab('opt', this)">Dose Optimization</button>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     TAB 1 – Standard PK Calculator
-════════════════════════════════════════════════ -->
+<!-- ════════════ TAB 1 ════════════ -->
 <div id="tab-pk" class="tab-panel active">
 <div class="container">
-<div class="grid-2">
 
-  <!-- LEFT: Inputs -->
-  <div>
-    <div class="card">
-      <h3><span class="dot"></span>Input Parameters</h3>
+  <!-- Equations toggle -->
+  <div class="eq-toggle-wrap">
+    <button class="eq-toggle-btn" id="eq-btn-pk" onclick="toggleEq('pk')">
+      <span id="eq-btn-pk-label">Show PK Equations</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="eq-panel" id="eq-panel-pk">
 
-      <!-- Method toggle -->
-      <div class="radio-group">
-        <input type="radio" id="m-ct" name="method" value="ct" checked onchange="toggleMethod()">
-        <label for="m-ct">Concentrations &amp; Times</label>
-        <input type="radio" id="m-dt" name="method" value="dt" onchange="toggleMethod()">
-        <label for="m-dt">Date / Time / Dose</label>
+      <div class="eq-section-title">Parameter Estimation from Two Levels</div>
+      <div class="eq-grid">
+
+        <div class="eq-item">
+          <div class="eq-name">Elimination Rate Constant (k<sub>e</sub>)</div>
+          <div class="eq-body">
+            k<sub>e</sub> =
+            <span class="frac"><span class="num">ln(C₁ / C₂)</span><span class="den">t₂ − t₁</span></span>
+          </div>
+          <div class="eq-note">t₁, t₂ = hours after <em>start</em> of infusion</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Elimination Half-Life (t<sub>½</sub>)</div>
+          <div class="eq-body">
+            t<sub>½</sub> =
+            <span class="frac"><span class="num">0.693</span><span class="den">k<sub>e</sub></span></span>
+          </div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Extrapolated Peak (C<sub>max</sub>)</div>
+          <div class="eq-body">
+            C<sub>max</sub> =
+            <span class="frac"><span class="num">C₁</span><span class="den">e<sup>−k<sub>e</sub>(t₁ − t′)</sup></span></span>
+          </div>
+          <div class="eq-note">t′ = infusion duration (hr)</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Extrapolated Trough (C<sub>min</sub>)</div>
+          <div class="eq-body">
+            C<sub>min</sub> = C<sub>max</sub> · e<sup>−k<sub>e</sub>(τ − t′)</sup>
+          </div>
+          <div class="eq-note">τ = dosing interval (hr)</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Volume of Distribution (V<sub>d</sub>)</div>
+          <div class="eq-body">
+            V<sub>d</sub> =
+            <span class="frac">
+              <span class="num">(Dose/t′) · (1 − e<sup>−k<sub>e</sub>t′</sup>)</span>
+              <span class="den">C<sub>max</sub> · k<sub>e</sub> · (1 − e<sup>−k<sub>e</sub>τ</sup>)</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Clearance (Cl<sub>r</sub>)</div>
+          <div class="eq-body">
+            Cl<sub>r</sub> = V<sub>d</sub> · k<sub>e</sub>
+          </div>
+          <div class="eq-note">L/hr — multiply by 16.67 for mL/min</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">AUC₂₄</div>
+          <div class="eq-body">
+            AUC<sub>24</sub> =
+            <span class="frac"><span class="num">Dose</span><span class="den">k<sub>e</sub> · V<sub>d</sub></span></span>
+            ·
+            <span class="frac"><span class="num">24</span><span class="den">τ</span></span>
+          </div>
+          <div class="eq-note">mg·h/L</div>
+        </div>
+
       </div>
-
-      <!-- Method A: concentration + time -->
-      <div id="section-ct" class="conditional visible">
-        <div class="row-2">
-          <div class="form-group">
-            <label>C₁ — First Level (mg/L)</label>
-            <input type="number" id="c1" value="8" min="0" step="0.1" />
-          </div>
-          <div class="form-group">
-            <label>C₂ — Second Level (mg/L)</label>
-            <input type="number" id="c2" value="1" min="0" step="0.1" />
-          </div>
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>t₁ — Time of C₁ after start of infusion (hr)</label>
-            <input type="number" id="t1" value="4" min="0" step="0.1" />
-          </div>
-          <div class="form-group">
-            <label>t₂ — Time of C₂ after start of infusion (hr)</label>
-            <input type="number" id="t2" value="12" min="0" step="0.1" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Method B: date/time -->
-      <div id="section-dt" class="conditional">
-        <div class="row-2">
-          <div class="form-group">
-            <label>Dose Date</label>
-            <input type="date" id="dose_date" />
-          </div>
-          <div class="form-group">
-            <label>Dose Time</label>
-            <input type="time" id="dose_time" value="08:00" />
-          </div>
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>Date of C₁</label>
-            <input type="date" id="date1" />
-          </div>
-          <div class="form-group">
-            <label>Time of C₁</label>
-            <input type="time" id="time1" value="12:00" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>C₁ Concentration (mg/L)</label>
-          <input type="number" id="c1_date" value="8" min="0" step="0.1" />
-        </div>
-        <div class="row-2">
-          <div class="form-group">
-            <label>Date of C₂</label>
-            <input type="date" id="date2" />
-          </div>
-          <div class="form-group">
-            <label>Time of C₂</label>
-            <input type="time" id="time2" value="20:00" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>C₂ Concentration (mg/L)</label>
-          <input type="number" id="c2_date" value="1" min="0" step="0.1" />
-        </div>
-      </div>
-
-      <div class="row-2">
-        <div class="form-group">
-          <label>Infusion Duration t' (hr)</label>
-          <input type="number" id="t_inf" value="1" min="0" step="0.1" />
-        </div>
-        <div class="form-group">
-          <label>Dosing Interval τ (hr)</label>
-          <input type="number" id="tau" value="24" min="1" step="0.1" />
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Total Dose (mg)</label>
-        <input type="number" id="dose" value="1000" min="1" step="1" />
-      </div>
-
-      <button class="btn btn-primary" onclick="calculatePK()">Calculate PK Parameters</button>
-      <button class="btn btn-success" onclick="useInOptimization()">Use Results in Optimization →</button>
     </div>
+  </div><!-- /eq-toggle-wrap -->
+
+  <div class="grid-2">
+
+    <!-- LEFT -->
+    <div>
+      <div class="card">
+        <h3><span class="dot"></span>Input Parameters</h3>
+
+        <div class="radio-group">
+          <input type="radio" id="m-ct" name="method" value="ct" checked onchange="toggleMethod()">
+          <label for="m-ct">Concentrations &amp; Times</label>
+          <input type="radio" id="m-dt" name="method" value="dt" onchange="toggleMethod()">
+          <label for="m-dt">Date / Time / Dose</label>
+        </div>
+
+        <div id="section-ct" class="conditional visible">
+          <div class="row-2">
+            <div class="form-group">
+              <label>C₁ — First Level (mg/L)</label>
+              <input type="number" id="c1" value="8" min="0" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label>C₂ — Second Level (mg/L)</label>
+              <input type="number" id="c2" value="1" min="0" step="0.1" />
+            </div>
+          </div>
+          <div class="row-2">
+            <div class="form-group">
+              <label>t₁ — Time of C₁ after start of infusion (hr)</label>
+              <input type="number" id="t1" value="4" min="0" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label>t₂ — Time of C₂ after start of infusion (hr)</label>
+              <input type="number" id="t2" value="12" min="0" step="0.1" />
+            </div>
+          </div>
+        </div>
+
+        <div id="section-dt" class="conditional">
+          <div class="row-2">
+            <div class="form-group">
+              <label>Dose Date</label>
+              <input type="date" id="dose_date" />
+            </div>
+            <div class="form-group">
+              <label>Dose Time</label>
+              <input type="time" id="dose_time" value="08:00" />
+            </div>
+          </div>
+          <div class="row-2">
+            <div class="form-group">
+              <label>Date of C₁</label>
+              <input type="date" id="date1" />
+            </div>
+            <div class="form-group">
+              <label>Time of C₁</label>
+              <input type="time" id="time1" value="12:00" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>C₁ Concentration (mg/L)</label>
+            <input type="number" id="c1_date" value="8" min="0" step="0.1" />
+          </div>
+          <div class="row-2">
+            <div class="form-group">
+              <label>Date of C₂</label>
+              <input type="date" id="date2" />
+            </div>
+            <div class="form-group">
+              <label>Time of C₂</label>
+              <input type="time" id="time2" value="20:00" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>C₂ Concentration (mg/L)</label>
+            <input type="number" id="c2_date" value="1" min="0" step="0.1" />
+          </div>
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>Infusion Duration t' (hr)</label>
+            <input type="number" id="t_inf" value="1" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label>Dosing Interval τ (hr)</label>
+            <input type="number" id="tau" value="24" min="1" step="0.1" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Total Dose (mg)</label>
+          <input type="number" id="dose" value="1000" min="1" step="1" />
+        </div>
+
+        <button class="btn btn-primary" onclick="calculatePK()">Calculate PK Parameters</button>
+        <button class="btn btn-success" onclick="useInOptimization()">Use Results in Optimization →</button>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div class="card">
+        <h3><span class="dot"></span>Calculated PK Parameters</h3>
+        <div id="pk-results"><p class="results-empty">Enter values and click Calculate to see results.</p></div>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Concentration–Time Curve</h3>
+        <div class="chart-wrap"><canvas id="pkChart"></canvas></div>
+      </div>
+    </div>
+
   </div>
-
-  <!-- RIGHT: Results -->
-  <div style="display:flex; flex-direction:column; gap:20px;">
-    <div class="card">
-      <h3><span class="dot"></span>Calculated PK Parameters</h3>
-      <div id="pk-results">
-        <p class="results-empty">Enter values and click Calculate to see results.</p>
-      </div>
-    </div>
-    <div class="card">
-      <h3><span class="dot"></span>Concentration–Time Curve</h3>
-      <div class="chart-wrap">
-        <canvas id="pkChart"></canvas>
-      </div>
-    </div>
-  </div>
-
 </div>
-</div>
-</div>
+</div><!-- /tab-pk -->
 
-<!-- ════════════════════════════════════════════════
-     TAB 2 – Dose Optimization
-════════════════════════════════════════════════ -->
+<!-- ════════════ TAB 2 ════════════ -->
 <div id="tab-opt" class="tab-panel">
 <div class="container">
-<div class="grid-2">
 
-  <!-- LEFT: Inputs -->
-  <div>
-    <div class="card">
-      <h3><span class="dot"></span>Patient PK Parameters</h3>
+  <!-- Equations toggle -->
+  <div class="eq-toggle-wrap">
+    <button class="eq-toggle-btn" id="eq-btn-opt" onclick="toggleEq('opt')">
+      <span id="eq-btn-opt-label">Show Optimization Equations</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="eq-panel" id="eq-panel-opt">
 
-      <div class="row-2">
-        <div class="form-group">
-          <label>Ke (hr⁻¹)</label>
-          <input type="number" id="ke_opt" value="0.3" min="0" step="0.001" />
+      <div class="eq-section-title">Predicted Concentrations from Dose</div>
+      <div class="eq-grid">
+
+        <div class="eq-item">
+          <div class="eq-name">Predicted Peak (C<sub>max</sub>)</div>
+          <div class="eq-body">
+            C<sub>max</sub> =
+            <span class="frac"><span class="num">Dose</span><span class="den">V<sub>d</sub> · k<sub>e</sub> · t′</span></span>
+            · (1 − e<sup>−k<sub>e</sub>t′</sup>)
+          </div>
         </div>
-        <div class="form-group">
-          <label>Vd (L)</label>
-          <input type="number" id="vd_opt" value="20" min="0" step="0.1" />
+
+        <div class="eq-item">
+          <div class="eq-name">Predicted Trough (C<sub>min</sub>)</div>
+          <div class="eq-body">
+            C<sub>min</sub> = C<sub>max</sub> · e<sup>−k<sub>e</sub>(τ − t′)</sup>
+          </div>
         </div>
-      </div>
-      <div class="row-2">
-        <div class="form-group">
-          <label>Infusion Duration t' (hr)</label>
-          <input type="number" id="t_inf_opt" value="1" min="0" step="0.1" />
+
+        <div class="eq-item">
+          <div class="eq-name">Predicted AUC₂₄</div>
+          <div class="eq-body">
+            AUC<sub>24</sub> =
+            <span class="frac"><span class="num">Dose</span><span class="den">k<sub>e</sub> · V<sub>d</sub></span></span>
+            ·
+            <span class="frac"><span class="num">24</span><span class="den">τ</span></span>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Dosing Interval τ (hr)</label>
-          <input type="number" id="interval_opt" value="24" min="0" step="0.1" />
-        </div>
+
       </div>
 
-      <div class="form-group">
-        <label>Calculation Mode</label>
-        <select id="calc_mode" onchange="toggleCalcMode()">
-          <option value="auc">Calculate from AUC Target</option>
-          <option value="dose">Calculate from Dose</option>
-        </select>
-      </div>
+      <div class="eq-section-title">Back-Calculation: Dose from Target</div>
+      <div class="eq-grid">
 
-      <div id="auc-input" class="form-group conditional visible">
-        <label>Target AUC₂₄ (mg·h/L)</label>
-        <input type="number" id="target_auc" value="250" min="0" step="1" />
-      </div>
-      <div id="dose-input" class="form-group conditional">
-        <label>Dose (mg)</label>
-        <input type="number" id="input_dose" value="1000" min="1" step="1" />
-      </div>
+        <div class="eq-item">
+          <div class="eq-name">Dose from AUC Target</div>
+          <div class="eq-body">
+            Dose = AUC<sub>24,target</sub> · k<sub>e</sub> · V<sub>d</sub> ·
+            <span class="frac"><span class="num">τ</span><span class="den">24</span></span>
+          </div>
+          <div class="eq-note">Rearrangement of the AUC₂₄ equation above</div>
+        </div>
 
-      <button class="btn btn-primary" onclick="optimizeDose()">Calculate</button>
+        <div class="eq-item">
+          <div class="eq-name">Dose from Peak Target</div>
+          <div class="eq-body">
+            Dose =
+            <span class="frac">
+              <span class="num">C<sub>max,target</sub> · V<sub>d</sub> · k<sub>e</sub> · t′</span>
+              <span class="den">1 − e<sup>−k<sub>e</sub>t′</sup></span>
+            </span>
+          </div>
+          <div class="eq-note">Rearrangement of the predicted peak equation above</div>
+        </div>
+
+      </div>
     </div>
+  </div><!-- /eq-toggle-wrap -->
+
+  <div class="grid-2">
+
+    <!-- LEFT -->
+    <div>
+      <div class="card">
+        <h3><span class="dot"></span>Patient PK Parameters</h3>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label>Ke (hr⁻¹)</label>
+            <input type="number" id="ke_opt" value="0.3" min="0" step="0.001" />
+          </div>
+          <div class="form-group">
+            <label>Vd (L)</label>
+            <input type="number" id="vd_opt" value="20" min="0" step="0.1" />
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="form-group">
+            <label>Infusion Duration t' (hr)</label>
+            <input type="number" id="t_inf_opt" value="1" min="0" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label>Dosing Interval τ (hr)</label>
+            <input type="number" id="interval_opt" value="24" min="0" step="0.1" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Calculation Mode</label>
+          <select id="calc_mode" onchange="toggleCalcMode()">
+            <option value="auc">Calculate from AUC Target</option>
+            <option value="peak">Calculate from Peak Target</option>
+            <option value="dose">Calculate from Dose</option>
+          </select>
+        </div>
+
+        <div id="auc-input" class="conditional visible">
+          <div class="form-group">
+            <label>Target AUC₂₄ (mg·h/L)</label>
+            <input type="number" id="target_auc" value="250" min="0" step="1" />
+          </div>
+        </div>
+        <div id="peak-input" class="conditional">
+          <div class="form-group">
+            <label>Target Peak C<sub>max</sub> (mg/L)</label>
+            <input type="number" id="target_cmax" value="10" min="0" step="0.1" />
+          </div>
+        </div>
+        <div id="dose-input" class="conditional">
+          <div class="form-group">
+            <label>Dose (mg)</label>
+            <input type="number" id="input_dose" value="1000" min="1" step="1" />
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="optimizeDose()">Calculate</button>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div class="card">
+        <h3><span class="dot"></span>Optimization Results</h3>
+        <div id="opt-results"><p class="results-empty">Enter parameters and click Calculate.</p></div>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Predicted Concentration–Time Curve</h3>
+        <div class="chart-wrap"><canvas id="optChart"></canvas></div>
+      </div>
+    </div>
+
   </div>
-
-  <!-- RIGHT: Results -->
-  <div style="display:flex; flex-direction:column; gap:20px;">
-    <div class="card">
-      <h3><span class="dot"></span>Optimization Results</h3>
-      <div id="opt-results">
-        <p class="results-empty">Enter parameters and click Calculate.</p>
-      </div>
-    </div>
-    <div class="card">
-      <h3><span class="dot"></span>Predicted Concentration–Time Curve</h3>
-      <div class="chart-wrap">
-        <canvas id="optChart"></canvas>
-      </div>
-    </div>
-  </div>
-
 </div>
-</div>
-</div>
+</div><!-- /tab-opt -->
 
-<!-- Toast notification -->
 <div id="toast"></div>
 
 <footer>
-  Built by Shemual Tsai · Last updated 9/16/25<br/>
+  Built by Shemual Tsai · Last updated 3/20/26<br/>
   Questions or feedback: <a href="mailto:stsai@houstonmethodist.org">stsai@houstonmethodist.org</a>
 </footer>
 
 <script>
-// ────────────────────────────────────────────────────────────────────────────
-// Utilities
-// ────────────────────────────────────────────────────────────────────────────
-let pkChartInstance = null;
+// ─────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────
+let pkChartInstance  = null;
 let optChartInstance = null;
 let storedPK = {};
 
+// ─────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────
 function toast(msg, dur = 4000) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   setTimeout(() => el.classList.remove('show'), dur);
 }
-
-function v(id) { return parseFloat(document.getElementById(id).value); }
+function v(id)  { return parseFloat(document.getElementById(id).value); }
 function sv(id) { return document.getElementById(id).value; }
 
-function datetimeToDecimal(dateStr, timeStr) {
-  return new Date(dateStr + 'T' + timeStr);
+function linspace(start, end, n = 300) {
+  const arr = [], step = (end - start) / (n - 1);
+  for (let i = 0; i < n; i++) arr.push(start + i * step);
+  return arr;
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
 // Tab switching
-// ────────────────────────────────────────────────────────────────────────────
-function switchTab(tab) {
+// ─────────────────────────────────────────────────
+function switchTab(tab, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Conditional display
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
+// Equations toggle
+// ─────────────────────────────────────────────────
+function toggleEq(which) {
+  const btn   = document.getElementById('eq-btn-' + which);
+  const panel = document.getElementById('eq-panel-' + which);
+  const lbl   = document.getElementById('eq-btn-' + which + '-label');
+  const isOpen = panel.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  if (which === 'pk') {
+    lbl.textContent = isOpen ? 'Hide PK Equations' : 'Show PK Equations';
+  } else {
+    lbl.textContent = isOpen ? 'Hide Optimization Equations' : 'Show Optimization Equations';
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Conditional inputs
+// ─────────────────────────────────────────────────
 function toggleMethod() {
   const method = document.querySelector('input[name="method"]:checked').value;
   document.getElementById('section-ct').classList.toggle('visible', method === 'ct');
@@ -563,13 +766,14 @@ function toggleMethod() {
 
 function toggleCalcMode() {
   const mode = sv('calc_mode');
-  document.getElementById('auc-input').classList.toggle('visible', mode === 'auc');
+  document.getElementById('auc-input').classList.toggle('visible',  mode === 'auc');
+  document.getElementById('peak-input').classList.toggle('visible', mode === 'peak');
   document.getElementById('dose-input').classList.toggle('visible', mode === 'dose');
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Set today's date defaults
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
+// Date defaults
+// ─────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   const today = new Date().toISOString().split('T')[0];
   ['dose_date','date1','date2'].forEach(id => {
@@ -577,13 +781,12 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
 // Chart helper
-// ────────────────────────────────────────────────────────────────────────────
-function renderChart(canvasId, instanceRef, datasets, xLabel, yLabel, annotations) {
-  const ctx = document.getElementById(canvasId).getContext('2d');
-  if (instanceRef) instanceRef.destroy();
-  const instance = new Chart(ctx, {
+// ─────────────────────────────────────────────────
+function renderChart(canvasId, old, datasets, xLabel, yLabel) {
+  if (old) old.destroy();
+  return new Chart(document.getElementById(canvasId).getContext('2d'), {
     type: 'line',
     data: { datasets },
     options: {
@@ -591,10 +794,7 @@ function renderChart(canvasId, instanceRef, datasets, xLabel, yLabel, annotation
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: {
-          labels: { font: { family: 'DM Sans', size: 12 }, color: '#475569' }
-        },
-        annotation: annotations || {}
+        legend: { labels: { font: { family: 'DM Sans', size: 12 }, color: '#475569' } }
       },
       scales: {
         x: {
@@ -612,35 +812,26 @@ function renderChart(canvasId, instanceRef, datasets, xLabel, yLabel, annotation
       }
     }
   });
-  return instance;
 }
 
-function linspace(start, end, n = 200) {
-  const arr = [];
-  const step = (end - start) / (n - 1);
-  for (let i = 0; i < n; i++) arr.push(start + i * step);
-  return arr;
-}
-
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
 // Standard PK Calculator
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
 function calculatePK() {
   const method = document.querySelector('input[name="method"]:checked').value;
-  const t_inf = v('t_inf');
-  const tau   = v('tau');
-  const dose  = v('dose');
+  const t_inf  = v('t_inf');
+  const tau    = v('tau');
+  const dose   = v('dose');
 
   let ke, c1_val, c2_val, t1_val, t2_val;
 
   if (method === 'ct') {
-    c1_val = v('c1'); c2_val = v('c2');
-    t1_val = v('t1'); t2_val = v('t2');
+    c1_val = v('c1');  c2_val = v('c2');
+    t1_val = v('t1');  t2_val = v('t2');
   } else {
-    // date/time method
-    const doseDateTime = datetimeToDecimal(sv('dose_date'), sv('dose_time'));
-    const dt1 = datetimeToDecimal(sv('date1'), sv('time1'));
-    const dt2 = datetimeToDecimal(sv('date2'), sv('time2'));
+    const doseDateTime = new Date(sv('dose_date') + 'T' + sv('dose_time'));
+    const dt1 = new Date(sv('date1') + 'T' + sv('time1'));
+    const dt2 = new Date(sv('date2') + 'T' + sv('time2'));
     t1_val = (dt1 - doseDateTime) / 3600000;
     t2_val = (dt2 - doseDateTime) / 3600000;
     c1_val = v('c1_date');
@@ -648,51 +839,50 @@ function calculatePK() {
   }
 
   if (c1_val <= 0 || c2_val <= 0) { toast('⚠ Concentrations must be > 0'); return; }
-  if (t2_val <= t1_val)           { toast('⚠ t₂ must be after t₁'); return; }
+  if (t2_val <= t1_val)           { toast('⚠ t₂ must be after t₁');        return; }
 
   ke = Math.log(c1_val / c2_val) / (t2_val - t1_val);
-  const t_half = 0.693 / ke;
-  const cmax   = c1_val / Math.exp(-ke * (t1_val - t_inf));
-  const cmin   = cmax   * Math.exp(-ke * (tau - t_inf));
-  const vd     = ((dose / t_inf) * (1 - Math.exp(-ke * t_inf))) /
-                 (cmax * ke * (1 - Math.exp(-ke * tau)));
+
+  const t_half    = 0.693 / ke;
+  const cmax      = c1_val / Math.exp(-ke * (t1_val - t_inf));
+  const cmin      = cmax * Math.exp(-ke * (tau - t_inf));
+  const vd        = ((dose / t_inf) * (1 - Math.exp(-ke * t_inf))) /
+                    (cmax * ke * (1 - Math.exp(-ke * tau)));
   const clr       = vd * ke;
   const clr_mlmin = clr * 16.67;
   const auc24     = (dose / (ke * vd)) * (24 / tau);
 
-  // Store
   storedPK = { ke, vd, t_half, t_inf, tau };
 
-  // Render results
   document.getElementById('pk-results').innerHTML = `
     <div class="results-grid">
       <div class="result-item">
-        <div class="r-label">Elimination Rate Constant (kₑ)</div>
+        <div class="r-label">Elimination Rate Constant (k<sub>e</sub>)</div>
         <div class="r-value">${ke.toFixed(4)}</div>
         <div class="r-unit">hr⁻¹</div>
       </div>
       <div class="result-item">
-        <div class="r-label">Elimination Half-Life (t₁/₂)</div>
+        <div class="r-label">Elimination Half-Life (t<sub>½</sub>)</div>
         <div class="r-value">${t_half.toFixed(2)}</div>
         <div class="r-unit">hours</div>
       </div>
       <div class="result-item highlight">
-        <div class="r-label">Extrapolated Peak (Cₘₐₓ) at end of infusion (t'=${t_inf}h)</div>
+        <div class="r-label">Extrapolated Peak (C<sub>max</sub>) at end of infusion (t′=${t_inf}h)</div>
         <div class="r-value">${cmax.toFixed(2)}</div>
         <div class="r-unit">mg/L</div>
       </div>
       <div class="result-item highlight">
-        <div class="r-label">Extrapolated Trough (Cₘᵢₙ)</div>
+        <div class="r-label">Extrapolated Trough (C<sub>min</sub>)</div>
         <div class="r-value">${cmin.toFixed(2)}</div>
         <div class="r-unit">mg/L</div>
       </div>
       <div class="result-item">
-        <div class="r-label">Volume of Distribution (Vd)</div>
+        <div class="r-label">Volume of Distribution (V<sub>d</sub>)</div>
         <div class="r-value">${vd.toFixed(2)}</div>
         <div class="r-unit">L</div>
       </div>
       <div class="result-item">
-        <div class="r-label">Clearance (Clᵣ)</div>
+        <div class="r-label">Clearance (Cl<sub>r</sub>)</div>
         <div class="r-value">${clr.toFixed(2)}</div>
         <div class="r-unit">L/hr · ${clr_mlmin.toFixed(1)} mL/min</div>
       </div>
@@ -703,54 +893,34 @@ function calculatePK() {
       </div>
     </div>`;
 
-  // Build curve
   const times = linspace(t_inf, tau, 300);
-  const concs = times.map(t => cmax * Math.exp(-ke * (t - t_inf)));
-  const curveData = times.map((t, i) => ({ x: t, y: concs[i] }));
-  const samplesData = [
-    { x: t1_val, y: c1_val },
-    { x: t2_val, y: c2_val }
-  ];
-
-  pkChartInstance = renderChart(
-    'pkChart', pkChartInstance,
-    [
-      {
-        label: 'PK Curve',
-        data: curveData,
-        borderColor: '#0e7490',
-        borderWidth: 2.5,
-        pointRadius: 0,
-        tension: 0,
-        fill: false
-      },
-      {
-        label: 'Measured Levels',
-        data: samplesData,
-        borderColor: 'transparent',
-        backgroundColor: '#ef4444',
-        pointRadius: 6,
-        pointHoverRadius: 8,
-        showLine: false
-      }
-    ],
-    'Time (hours)', 'Concentration (mg/L)'
-  );
+  pkChartInstance = renderChart('pkChart', pkChartInstance, [
+    {
+      label: 'PK Curve',
+      data: times.map(t => ({ x: t, y: cmax * Math.exp(-ke * (t - t_inf)) })),
+      borderColor: '#0e7490', borderWidth: 2.5, pointRadius: 0, fill: false
+    },
+    {
+      label: 'Measured Levels',
+      data: [{ x: t1_val, y: c1_val }, { x: t2_val, y: c2_val }],
+      borderColor: 'transparent', backgroundColor: '#ef4444',
+      pointRadius: 6, pointHoverRadius: 8, showLine: false
+    }
+  ], 'Time (hours)', 'Concentration (mg/L)');
 
   toast('✓ PK parameters calculated. Click "Use Results in Optimization" to transfer them.');
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-// Transfer to Optimization tab
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
+// Transfer PK → Optimization
+// ─────────────────────────────────────────────────
 function useInOptimization() {
   if (!storedPK.ke) { toast('⚠ Calculate PK parameters first.'); return; }
-  document.getElementById('ke_opt').value = storedPK.ke.toFixed(4);
-  document.getElementById('vd_opt').value = storedPK.vd.toFixed(2);
-  if (storedPK.t_inf)  document.getElementById('t_inf_opt').value = storedPK.t_inf;
-  if (storedPK.tau)    document.getElementById('interval_opt').value = storedPK.tau;
+  document.getElementById('ke_opt').value       = storedPK.ke.toFixed(4);
+  document.getElementById('vd_opt').value       = storedPK.vd.toFixed(2);
+  if (storedPK.t_inf) document.getElementById('t_inf_opt').value    = storedPK.t_inf;
+  if (storedPK.tau)   document.getElementById('interval_opt').value = storedPK.tau;
 
-  // Switch to optimization tab
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-opt').classList.add('active');
@@ -759,9 +929,9 @@ function useInOptimization() {
   toast('✓ Patient-specific parameters copied to Dose Optimization tab.');
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
 // Dose Optimization
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────
 function optimizeDose() {
   const ke       = v('ke_opt');
   const vd       = v('vd_opt');
@@ -769,23 +939,36 @@ function optimizeDose() {
   const interval = v('interval_opt');
   const mode     = sv('calc_mode');
 
+  // Reused equations – identical to existing implementations
   const calcPeak   = (d) => (d / (vd * ke * t_inf)) * (1 - Math.exp(-ke * t_inf));
   const calcTrough = (pk) => pk * Math.exp(-ke * (interval - t_inf));
-  const calcAUC24  = (d) => (d / (ke * vd)) * (24 / interval);
+  const calcAUC24  = (d)  => (d / (ke * vd)) * (24 / interval);
 
   let newDose, predPeak, predTrough, predAUC24;
 
   if (mode === 'auc') {
+    // Dose = AUC24_target * ke * Vd * (τ/24)  [rearrangement of AUC24 equation]
     const targetAUC = v('target_auc');
-    newDose   = targetAUC * ke * vd * (interval / 24);
-    predPeak  = calcPeak(newDose);
+    newDose    = targetAUC * ke * vd * (interval / 24);
+    predPeak   = calcPeak(newDose);
     predTrough = calcTrough(predPeak);
-    predAUC24 = targetAUC;
+    predAUC24  = targetAUC;
+
+  } else if (mode === 'peak') {
+    // Cmax = (Dose/(Vd*ke*t'))*(1-e^(-ke*t'))
+    // => Dose = Cmax_target * Vd * ke * t' / (1 - e^(-ke*t'))  [rearrangement of calcPeak]
+    const targetCmax = v('target_cmax');
+    newDose    = (targetCmax * vd * ke * t_inf) / (1 - Math.exp(-ke * t_inf));
+    predPeak   = calcPeak(newDose);   // resolves to targetCmax
+    predTrough = calcTrough(predPeak);
+    predAUC24  = calcAUC24(newDose);
+
   } else {
-    newDose   = v('input_dose');
-    predPeak  = calcPeak(newDose);
+    // mode === 'dose'
+    newDose    = v('input_dose');
+    predPeak   = calcPeak(newDose);
     predTrough = calcTrough(predPeak);
-    predAUC24 = calcAUC24(newDose);
+    predAUC24  = calcAUC24(newDose);
   }
 
   document.getElementById('opt-results').innerHTML = `
@@ -796,12 +979,12 @@ function optimizeDose() {
         <div class="r-unit">mg</div>
       </div>
       <div class="result-item">
-        <div class="r-label">Predicted Peak (Cₘₐₓ)</div>
+        <div class="r-label">Predicted Peak (C<sub>max</sub>)</div>
         <div class="r-value">${predPeak.toFixed(2)}</div>
         <div class="r-unit">mg/L</div>
       </div>
       <div class="result-item">
-        <div class="r-label">Predicted Trough (Cₘᵢₙ)</div>
+        <div class="r-label">Predicted Trough (C<sub>min</sub>)</div>
         <div class="r-value">${predTrough.toFixed(2)}</div>
         <div class="r-unit">mg/L</div>
       </div>
@@ -812,50 +995,30 @@ function optimizeDose() {
       </div>
     </div>`;
 
-  // Concentration-time curve
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
-    if (t_inf <= 0) return predPeak * Math.exp(-ke * t);
-    if (t <= t_inf) return predPeak * (t / t_inf);      // linear rise approximation
+    if (t_inf <= 0)  return predPeak * Math.exp(-ke * t);
+    if (t <= t_inf)  return predPeak * (t / t_inf);
     return predPeak * Math.exp(-ke * (t - t_inf));
   });
 
-  const peakLine   = times.map(t => ({ x: t, y: predPeak }));
-  const troughLine = times.map(t => ({ x: t, y: predTrough }));
-  const curveData  = times.map((t, i) => ({ x: t, y: concs[i] }));
-
-  optChartInstance = renderChart(
-    'optChart', optChartInstance,
-    [
-      {
-        label: 'Predicted Curve',
-        data: curveData,
-        borderColor: '#0e7490',
-        borderWidth: 2.5,
-        pointRadius: 0,
-        fill: false
-      },
-      {
-        label: `Peak = ${predPeak.toFixed(2)} mg/L`,
-        data: peakLine,
-        borderColor: '#ef4444',
-        borderWidth: 1.5,
-        borderDash: [6, 4],
-        pointRadius: 0,
-        fill: false
-      },
-      {
-        label: `Trough = ${predTrough.toFixed(2)} mg/L`,
-        data: troughLine,
-        borderColor: '#f97316',
-        borderWidth: 1.5,
-        borderDash: [6, 4],
-        pointRadius: 0,
-        fill: false
-      }
-    ],
-    'Time (hours)', 'Concentration (mg/L)'
-  );
+  optChartInstance = renderChart('optChart', optChartInstance, [
+    {
+      label: 'Predicted Curve',
+      data: times.map((t, i) => ({ x: t, y: concs[i] })),
+      borderColor: '#0e7490', borderWidth: 2.5, pointRadius: 0, fill: false
+    },
+    {
+      label: `Peak = ${predPeak.toFixed(2)} mg/L`,
+      data: times.map(t => ({ x: t, y: predPeak })),
+      borderColor: '#ef4444', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false
+    },
+    {
+      label: `Trough = ${predTrough.toFixed(2)} mg/L`,
+      data: times.map(t => ({ x: t, y: predTrough })),
+      borderColor: '#f97316', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false
+    }
+  ], 'Time (hours)', 'Concentration (mg/L)');
 }
 </script>
 </body>
