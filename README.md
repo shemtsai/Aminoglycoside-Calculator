@@ -3,5 +3,5 @@ Non-trapezoidal calculations of AUC- open to any feedback/thoughts on other func
 Link with deployed code on Shiny:
 [https://shemtsai.shinyapps.io/shinyapp/](https://shemtsai.shinyapps.io/shinyapp/)
 
-Link with deployed code (ported from R to HTML with AI assistance):
+Link with deployed code (ported from R to HTML with AI assistance for enhanced UI):
 [https://shemtsai.github.io/Aminoglycoside-Calculator/](https://shemtsai.github.io/Aminoglycoside-Calculator/)
