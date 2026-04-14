@@ -94,6 +94,38 @@
                     <li>One-time doses without clear continuation plan do not require maintenance dosing orders</li>
                 </ul>
             </div>
+            
+            <div class="card">
+                <h5>Aminoglycoside Dosing Weight Selection</h5>
+            
+                <ul>
+                    <li><b>Primary dosing weight:</b> Ideal Body Weight (IBW) for most patients</li>
+                    <li><b>Obesity adjustment:</b> If Actual Body Weight (ABW) ≥ 1.25 × IBW, use Adjusted Body Weight (AdjBW)</li>
+                    <li><b>Critically ill (non-obese):</b> May consider ABW at clinician discretion</li>
+                </ul>
+            
+                <hr/>
+            
+                <b>IBW Calculations</b>
+                <ul>
+                    <li><b>Male:</b> 50 kg + 2.3 kg per inch over 60 inches</li>
+                    <li><b>Female:</b> 45 kg + 2.3 kg per inch over 60 inches</li>
+                </ul>
+            
+                <b>Adjusted Body Weight (when applicable)</b>
+                <ul>
+                    <li>AdjBW = IBW + 0.4 × (ABW − IBW)</li>
+                </ul>
+            
+                <hr/>
+            
+                <b>Clinical Interpretation Guide</b>
+                <ul>
+                    <li>If ABW &lt; 1.25 × IBW → use IBW</li>
+                    <li>If ABW ≥ 1.25 × IBW → use AdjBW</li>
+                    <li>If ICU patient and not obese → consider ABW with clinical judgment</li>
+                </ul>
+            </div>
 
             <!-- Nested Tabs -->
             <ul class="nav nav-pills mb-3" id="subTabs">
@@ -138,26 +170,12 @@
                         <b>Maintenance Interval:</b>
                         <ul>
                             <li>CrCl ≥60 mL/min: Every 24 hours</li>
-                            <li>CrCl 40–&lt;60 mL/min: Every 36 hours</li>
-                            <li>CrCl 20–&lt;40 mL/min: Every 48 hours</li>
+                            <li>CrCl 40–59 mL/min: Every 36 hours</li>
+                            <li>CrCl 20–39 mL/min: Every 48 hours</li>
                             <li>CrCl &lt;20 mL/min: Placeholder dosing</li>
                         </ul>
                     </div>
                     
-                    <div class="card">
-                        <h4>Gentamicin (Gram-positive Synergy – Conventional Dosing)</h4>
-                        <ul>
-                            <li>Typically used for Gram-positive endocarditis</li>
-                            <li>Dose: 1 mg/kg IV every 8 hours</li>
-                        </ul>
-                        <b>Maintenance Interval:</b>
-                        <ul>
-                            <li>CrCl ≥60 mL/min: Every 8 hours</li>
-                            <li>CrCl 40–59 mL/min: Every 12 hours</li>
-                            <li>CrCl 20–39 mL/min: Every 24 hours</li>
-                            <li>CrCl &lt;20 mL/min: Give initial dose, then order placeholder</li>
-                        </ul>
-                    </div>
 
                 </div>
 
@@ -278,6 +296,34 @@
                         </ul>
                     </div>
 
+                </div>
+
+                <!-- ========================= -->
+                <!-- GRAM POSITIVE SYNERGY TAB -->
+                <!-- ========================= -->
+                <div class="tab-pane fade" id="synergy">
+                
+                    <div class="card">
+                        <h4>Gentamicin (Gram-Positive Synergy – Endocarditis)</h4>
+                
+                        <ul>
+                            <li><b>Indication:</b> Gram-positive synergy (e.g., enterococcal or staphylococcal endocarditis)</li>
+                        </ul>
+                
+                        <b>Dose</b>
+                        <ul>
+                            <li>1 mg/kg IV every 8 hours</li>
+                        </ul>
+                
+                        <b>Maintenance Interval (renal adjustment)</b>
+                        <ul>
+                            <li>CrCl ≥60 mL/min: Every 8 hours</li>
+                            <li>CrCl 40–59 mL/min: Every 12 hours</li>
+                            <li>CrCl 20–39 mL/min: Every 24 hours</li>
+                            <li>CrCl &lt;20 mL/min: Give initial dose, then placeholder dosing</li>
+                        </ul>
+                    </div>
+                
                 </div>
 
             </div>
