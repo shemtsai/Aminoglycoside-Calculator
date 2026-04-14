@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aminoglycoside Calculator</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+    }
+
+    .app-header {
+        font-weight: 600;
+        letter-spacing: 1px;
+        padding: 20px 10px;
+    }
+
+    .card, .well-panel {
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(37,99,235,0.08);
+        background: white;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .btn-primary {
+        background-color: #2563eb;
+        border-color: #2563eb;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-tabs .nav-link.active {
+        background: #2563eb !important;
+        color: white !important;
+    }
+
+    .section-title {
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container py-3">
+
+    <!-- HEADER -->
+    <div class="app-header text-center">
+        Aminoglycoside Calculator
+    </div>
+
+    <!-- TOP LEVEL TABS -->
+    <ul class="nav nav-tabs" id="mainTabs">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#empiric">
+                Empiric Dosing (CPOV Guidance)
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content pt-3">
+
+        <!-- ========================= -->
+        <!-- EMPIRIC TAB -->
+        <!-- ========================= -->
+        <div class="tab-pane fade show active" id="empiric">
+
+            <!-- System Action Guidance -->
+            <div class="card">
+                <h5>System Action Guidance (Applies to All Settings)</h5>
+                <ul>
+                    <li><b>iVent:</b> Open 'Communication to Clinical Specialist' for any aminoglycoside ordered for continuation &gt;48 hours</li>
+                    <li>Notify clinical specialist for follow-up on duration, monitoring, and need for pharmacy consult</li>
+                    <li>One-time doses without clear continuation plan do not require maintenance dosing orders</li>
+                </ul>
+            </div>
+
+            <!-- Nested Tabs -->
+            <ul class="nav nav-pills mb-3" id="subTabs">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#adult">Adult</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cvvh">CVVH</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ihd">iHD</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#neonatal">Neonatal</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- ================= ADULT ================= -->
+                <div class="tab-pane fade show active" id="adult">
+
+                    <div class="card">
+                        <h4>Action</h4>
+                        <ul>
+                            <li><b>iVent:</b> Open 'Communication to Clinical Specialist'</li>
+                            <li>Notify clinical specialist for follow-up</li>
+                            <li>One-time doses without continuation plan do not require maintenance dosing</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Gentamicin (Gram-positive Synergy – Conventional Dosing)</h4>
+                        <ul>
+                            <li>Typically used for Gram-positive endocarditis</li>
+                            <li>Dose: 1 mg/kg IV every 8 hours</li>
+                        </ul>
+                        <b>Maintenance Interval:</b>
+                        <ul>
+                            <li>CrCl ≥60 mL/min: Every 8 hours</li>
+                            <li>CrCl 40–59 mL/min: Every 12 hours</li>
+                            <li>CrCl 20–39 mL/min: Every 24 hours</li>
+                            <li>CrCl &lt;20 mL/min: Give initial dose, then order placeholder</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Gentamicin/Tobramycin (Non-synergy – High-dose Extended-Interval)</h4>
+                        <b>Initial Dose:</b>
+                        <ul><li>7 mg/kg IV x1</li></ul>
+                        <b>Maintenance Interval:</b>
+                        <ul>
+                            <li>CrCl ≥60 mL/min: Every 24 hours</li>
+                            <li>CrCl 40–59 mL/min: Every 36 hours</li>
+                            <li>CrCl 20–39 mL/min: Every 48 hours</li>
+                            <li>CrCl &lt;20 mL/min: Placeholder dosing</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Amikacin (High-dose Extended-Interval)</h4>
+                        <b>Initial Dose:</b>
+                        <ul><li>15 mg/kg IV x1</li></ul>
+                        <b>Maintenance Interval:</b>
+                        <ul>
+                            <li>CrCl ≥60 mL/min: Every 24 hours</li>
+                            <li>CrCl 40–&lt;60 mL/min: Every 36 hours</li>
+                            <li>CrCl 20–&lt;40 mL/min: Every 48 hours</li>
+                            <li>CrCl &lt;20 mL/min: Placeholder dosing</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- ================= CVVH ================= -->
+                <div class="tab-pane fade" id="cvvh">
+
+                    <div class="card">
+                        <h4>Key Principles</h4>
+                        <ul>
+                            <li>Dosing depends on effluent rate and clearance</li>
+                            <li>Extended-interval dosing preferred</li>
+                            <li>Therapeutic drug monitoring essential</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Gentamicin / Tobramycin</h4>
+                        <ul>
+                            <li>Loading: 7 mg/kg IV x1</li>
+                            <li>Maintenance: Placeholder dosing</li>
+                            <li>Redose based on levels</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Amikacin</h4>
+                        <ul>
+                            <li>Loading: 15 mg/kg IV x1</li>
+                            <li>Maintenance: Placeholder dosing</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- ================= iHD ================= -->
+                <div class="tab-pane fade" id="ihd">
+
+                    <div class="card">
+                        <h4>Key Considerations in Intermittent Hemodialysis</h4>
+                        <ul>
+                            <li>Significant drug removal during dialysis</li>
+                            <li>Prefer post-dialysis dosing</li>
+                            <li>Require serum concentrations</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Gentamicin / Tobramycin</h4>
+                        <ul>
+                            <li>Initial: 3 mg/kg IV x1</li>
+                            <li>Maintenance: Placeholder dosing</li>
+                            <li>Redose based on HD schedule</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Amikacin</h4>
+                        <ul>
+                            <li>Initial: 10 mg/kg IV x1</li>
+                            <li>Maintenance: Placeholder dosing</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- ================= NEONATAL ================= -->
+                <div class="tab-pane fade" id="neonatal">
+
+                    <div class="card">
+                        <h4>Gentamicin (Neonatal)</h4>
+                        <b>GA &lt;30 weeks</b>
+                        <ul>
+                            <li>PNA ≤14 days: 5 mg/kg q48h</li>
+                            <li>PNA &gt;14 days: 5 mg/kg q36h</li>
+                        </ul>
+
+                        <b>GA 30–34 weeks</b>
+                        <ul>
+                            <li>PNA ≤14 days: 5 mg/kg q36h</li>
+                            <li>PNA &gt;14 days: 5 mg/kg q24h</li>
+                        </ul>
+
+                        <b>GA 35–43 weeks</b>
+                        <ul>
+                            <li>PNA ≤7 days: 4 mg/kg q24h</li>
+                            <li>PNA &gt;7 days: 5 mg/kg q24h</li>
+                        </ul>
+
+                        <b>GA ≥44 weeks</b>
+                        <ul>
+                            <li>2.5 mg/kg q8h</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>Amikacin (Neonatal)</h4>
+
+                        <b>GA &lt;30 weeks</b>
+                        <ul>
+                            <li>PNA ≤14 days: 15 mg/kg q48h</li>
+                            <li>PNA &gt;14 days: 15 mg/kg q24h</li>
+                        </ul>
+
+                        <b>GA 30–34 weeks</b>
+                        <ul>
+                            <li>PNA ≤60 days: 15 mg/kg q24h</li>
+                        </ul>
+
+                        <b>GA 35–43 weeks</b>
+                        <ul>
+                            <li>PNA ≤7 days: 15 mg/kg q24h</li>
+                            <li>PNA &gt;7 days: 17.5 mg/kg q24h</li>
+                        </ul>
+
+                        <b>GA ≥44 weeks</b>
+                        <ul>
+                            <li>5–7.5 mg/kg q8h</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- UI behavior only (no computation) -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Bootstrap handles tab switching automatically via data-bs-toggle
+});
+</script>
+
+</body>
+</html>
