@@ -2,499 +2,447 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aminoglycoside Initial Dosing Guidance</title>
-
-<!-- Bootstrap 5 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aminoglycoside Guidance</title>
 
 <style>
     body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
         background-color: #f8fafc;
+        margin: 0;
+        padding: 20px;
+        color: #1e293b;
+        line-height: 1.4;
     }
 
-    .app-header {
-        font-weight: 600;
-        letter-spacing: 1px;
-        padding: 20px 10px;
+    .header {
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #1e3a8a;
     }
 
-    .card, .well-panel {
-        border-radius: 18px;
-        box-shadow: 0 4px 24px rgba(37,99,235,0.08);
-        background: white;
+    /* Logic: Hide radio buttons */
+    input[type="radio"] { display: none; }
+
+    /* Main Tab bar */
+    .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 10px;
+    }
+
+    .tabs label {
+        padding: 10px 14px;
+        background: #e5e7eb;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        color: #475569;
+    }
+
+    /* Active Main Tab */
+    #tab1:checked ~ .tabs label[for="tab1"],
+    #tab2:checked ~ .tabs label[for="tab2"],
+    #tab3:checked ~ .tabs label[for="tab3"] {
+        background: #2563eb;
+        color: white;
+    }
+
+    .panel { display: none; }
+
+    #tab1:checked ~ .content #panel1,
+    #tab2:checked ~ .content #panel2,
+    #tab3:checked ~ .content #panel3 {
+        display: block;
+    }
+
+    /* Sub-tabs logic */
+    .sub-tabs {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        margin: 15px 0;
+    }
+    .sub-tabs label {
+        font-size: 12px;
+        padding: 6px 12px;
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+    #sub1:checked ~ .sub-tabs label[for="sub1"],
+    #sub2:checked ~ .sub-tabs label[for="sub2"],
+    #sub3:checked ~ .sub-tabs label[for="sub3"],
+    #sub4:checked ~ .sub-tabs label[for="sub4"],
+    #sub5:checked ~ .sub-tabs label[for="sub5"],
+    #sub6:checked ~ .sub-tabs label[for="sub6"] {
+        background: #1e3a8a;
+        color: white;
+        border-color: #1e3a8a;
+    }
+
+    .sub-panel { display: none; }
+    #sub1:checked ~ .sub-content #psub1,
+    #sub2:checked ~ .sub-content #psub2,
+    #sub3:checked ~ .sub-content #psub3,
+    #sub4:checked ~ .sub-content #psub4,
+    #sub5:checked ~ .sub-content #psub5,
+    #sub6:checked ~ .sub-content #psub6 {
+        display: block;
+    }
+
+    /* Cards and Styling */
+    .card {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
         padding: 16px;
         margin-bottom: 16px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-
-    .btn-primary {
-        background-color: #2563eb;
-        border-color: #2563eb;
-        font-weight: 500;
-        border-radius: 8px;
+    .alert {
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        font-size: 14px;
     }
+    .alert-blue { background: #eff6ff; border-left: 4px solid #3b82f6; }
+    .alert-warn { background: #fffbeb; border-left: 4px solid #f59e0b; }
+    .alert-gray { background: #f1f5f9; border-left: 4px solid #94a3b8; }
 
-    label {
-        font-weight: 600;
-    }
-
-    .nav-pills .nav-link.active,
-    .nav-tabs .nav-link.active {
-        background: #2563eb !important;
-        color: white !important;
-    }
-
-    .section-title {
-        font-weight: 600;
-        margin-top: 10px;
-    }
-
-    ul {
-        margin-bottom: 0;
-    }
-
+    h4, h5, h6 { margin-top: 0; color: #1e3a8a; margin-bottom: 10px; }
+    ul { padding-left: 20px; margin-top: 5px; }
+    li { margin-bottom: 6px; }
+    b { color: #0f172a; }
 </style>
 </head>
 
 <body>
 
-<div class="container py-3">
+<div class="header">Aminoglycoside Guidance</div>
 
-    <!-- HEADER -->
-    <div class="app-header text-center">
-        Aminoglycoside Guidance
-    </div>
+<input type="radio" name="main" id="tab1" checked="checked" />
+<input type="radio" name="main" id="tab2" />
+<input type="radio" name="main" id="tab3" />
 
-    <!-- TOP LEVEL TABS -->
-    <ul class="nav nav-tabs" id="mainTabs">
-        <li class="nav-item">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#empiric">
-                Empiric Dosing Recommendations
-            </button>
-        </li>
-        
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#weight">
-                Dosing Weight Selection
-            </button>
-        </li>
-
-        <li class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#comparison">
-                Conventional vs High-Dose EI
-            </button>
-        </li>
-
-    </ul>
-
-
-    <div class="tab-content pt-3">
-
-        <!-- ========================= -->
-        <!-- EMPIRIC TAB -->
-        <!-- ========================= -->
-        <div class="tab-pane fade show active" id="empiric">
-
-            <!-- System Action Guidance -->
-            <div class="card">
-                <h5>CPOV Guidance</h5>
-                <ul>
-                    <li><b>iVent:</b> Open 'Communication to Clinical Specialist' for any aminoglycoside ordered for continuation &gt;48 hours</li>
-                    <li>I-vent should notify clinical specialist on aminoglycoside order so they can appropriately follow-up on duration, monitoring, and need for pharmacy consult</li>
-                    <li><b>One-time doses and surgical prophylaxis indications do not require maintenance dosing orders</b></li>
-                </ul>
-            </div>
-        
-            <!-- Nested Tabs -->
-            <ul class="nav nav-pills mb-3" id="subTabs">
-                <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#adult">Adult</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cvvh">CVVH</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ihd">iHD</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#neonatal">Neonatal</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ntm">TB/Mycobacterial</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#synergy">Gram Positive Synergy</button>
-                </li>
-            </ul>
-
-            <div class="tab-content">
-
-                <!-- ================= ADULT ================= -->
-                <div class="tab-pane fade show active" id="adult">
-               
-                    <div class="alert alert-info" style="border-radius:12px;">
-                        <b>Special Indications:</b>
-                        For treatment of chorioamnionitis, endometritis, or post-abortal infection,
-                        continue dosing per the institutional order set (e.g., gentamicin 5 mg/kg IV every 24 hours,
-                        using adjusted body weight).
-                    </div>
-
-                    <div class="card">
-                        <h4>Gentamicin/Tobramycin (High-dose Extended-Interval)</h4>
-                        <b>Initial Dose:</b>
-                        <ul><li>7 mg/kg IV x1</li></ul>
-                        <b>Maintenance Interval:</b>
-                        <ul>
-                            <li>CrCl ≥60 mL/min: Every 24 hours</li>
-                            <li>CrCl 40–59 mL/min: Every 36 hours</li>
-                            <li>CrCl 20–39 mL/min: Every 48 hours</li>
-                            <li>CrCl &lt;20 mL/min: Give initial dose, then order gentamicin/tobramycin placeholder</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h4>Amikacin (High-dose Extended-Interval)</h4>
-                        <b>Initial Dose:</b>
-                        <ul><li>15 mg/kg IV x1</li></ul>
-                        <b>Maintenance Interval:</b>
-                        <ul>
-                            <li>CrCl ≥60 mL/min: Every 24 hours</li>
-                            <li>CrCl 40–59 mL/min: Every 36 hours</li>
-                            <li>CrCl 20–39 mL/min: Every 48 hours</li>
-                            <li>CrCl &lt;20 mL/min: Give initial dose, then order amikacin placeholder</li>
-                        </ul>
-                    </div>
-                    
-
-                </div>
-
-                <!-- ================= CVVH ================= -->
-                <div class="tab-pane fade" id="cvvh">
-
-                    <div class="card">
-                        <h4>Key Principles</h4>
-                        <ul>
-                            <li>Dosing depends on effluent rate and clearance</li>
-                            <li>Extended-interval dosing preferred</li>
-                            <li>Therapeutic drug monitoring essential</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h4>Gentamicin / Tobramycin</h4>
-                        <ul>
-                            <li>Loading: 7 mg/kg IV x1</li>
-                            <li>Maintenance: Order gentamicin/tobramycin placeholder</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h4>Amikacin</h4>
-                        <ul>
-                            <li>Loading: 15 mg/kg IV x1</li>
-                            <li>Maintenance: Order gentamicin/tobramycin placeholder</li>
-                        </ul>
-                    </div>
-
-                </div>
-
-                <!-- ================= iHD ================= -->
-                <div class="tab-pane fade" id="ihd">
-
-                    <div class="card">
-                        <h4>Key Considerations in Intermittent Hemodialysis</h4>
-                        <ul>
-                            <li>Significant drug removal during dialysis</li>
-                            <li>Prefer post-dialysis dosing</li>
-                            <li>Require serum concentrations</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h4>Gentamicin / Tobramycin</h4>
-                        <ul>
-                            <li>Initial: 3 mg/kg IV x1</li>
-                            <li>Maintenance: Order gentamicin/tobramycin placeholder</li>
-                            <li>Redose based on HD schedule</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h4>Amikacin</h4>
-                        <ul>
-                            <li>Initial: 10 mg/kg IV x1</li>
-                            <li>Maintenance: Order amikacin placeholder</li>
-                        </ul>
-                    </div>
-
-                </div>
-
-                <!-- ================= NEONATAL ================= -->
-                <div class="tab-pane fade" id="neonatal">
-
-                    <!-- Abbreviation Legend -->
-                    <div class="alert alert-secondary" style="border-radius:12px;">
-                        <b>Abbreviations:</b><br>
-                        <ul style="margin-bottom:0;">
-                            <li><b>GA</b> = Gestational Age (weeks)</li>
-                            <li><b>PNA</b> = Postnatal Age (days)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="card">
-                        <h4>Gentamicin (Neonatal)</h4>
-                        <b>GA &lt;30 weeks</b>
-                        <ul>
-                            <li>PNA ≤14 days: 5 mg/kg q48h</li>
-                            <li>PNA &gt;14 days: 5 mg/kg q36h</li>
-                        </ul>
-
-                        <b>GA 30–34 weeks</b>
-                        <ul>
-                            <li>PNA ≤14 days: 5 mg/kg q36h</li>
-                            <li>PNA &gt;14 days: 5 mg/kg q24h</li>
-                        </ul>
-
-                        <b>GA 35–43 weeks</b>
-                        <ul>
-                            <li>PNA ≤7 days: 4 mg/kg q24h</li>
-                            <li>PNA &gt;7 days: 5 mg/kg q24h</li>
-                        </ul>
-
-                        <b>GA ≥44 weeks</b>
-                        <ul>
-                            <li>2.5 mg/kg q8h</li>
-                        </ul>
-                    </div>
-
-                    <div class="card">
-                        <h4>Amikacin (Neonatal)</h4>
-
-                        <b>GA &lt;30 weeks</b>
-                        <ul>
-                            <li>PNA ≤14 days: 15 mg/kg q48h</li>
-                            <li>PNA &gt;14 days: 15 mg/kg q24h</li>
-                        </ul>
-
-                        <b>GA 30–34 weeks</b>
-                        <ul>
-                            <li>PNA ≤60 days: 15 mg/kg q24h</li>
-                        </ul>
-
-                        <b>GA 35–43 weeks</b>
-                        <ul>
-                            <li>PNA ≤7 days: 15 mg/kg q24h</li>
-                            <li>PNA &gt;7 days: 17.5 mg/kg q24h</li>
-                        </ul>
-
-                        <b>GA ≥44 weeks</b>
-                        <ul>
-                            <li>5–7.5 mg/kg q8h</li>
-                        </ul>
-                    </div>
-
-                        <!-- Guideline Attribution (PLACE HERE) -->
-                        <div class="alert alert-info" style="border-radius:12px; margin-top:15px;">
-                            <b>Guideline Source:</b><br>
-                            Neonatal aminoglycoside dosing recommendations are adapted from 
-                            <b>Baylor institutional guidelines</b>.
-                        </div>
-                    
-
-                </div>
-
-                <!-- ================= TB/Mycobacterial ================= -->
-                <div class="tab-pane fade" id="ntm">
-                
-                    <div class="alert alert-warning" style="border-radius:12px;">
-                        <b>When to use:</b>  If a patient is ordered for an aminoglycoside with an indication "TB/mycobacterial infections" or 
-                        if clinical notes suggest aminoglycoside is used for treatment of mycobacterial infection. Below guidance is only for systemic aminoglycosides.
-                    </div>
-                
-                    <div class="card">
-                        <h4>Continuation of Home Therapy (NTM)</h4>
-                
-                        <ul>
-                            <li><b>Verify and continue home amikacin regimen</b></li>
-                            <li>Confirm dose, frequency, and indication</li>
-                        </ul>
-                
-                        <b>Typical Dosing Patterns for reference</b>
-                        <ul>
-                            <li>15–25 mg/kg IV three times weekly (preferred)</li>
-                            <li>10-15 mg/kg IV five days per week or daily</li>
-                        </ul>
-                        </div>
-
-                    <div class="card">
-
-                        <h4>New Start (TB / Mycobacterial Infections)</h4>
-                    
-                        <div class="mt-3">
-                            <b>Treatment initiation (off-hours/weekend)</b>
-                            <ul>
-                                <li>If urgent initiation is required, it is reasonable to start amikacin 15–25 mg/kg IV three times weekly</li>
-                                <li>In addition to 'Communication to Clinical Specialist, reach out to ID pharmacist to notify for reassessment of regimen in daytime/weekday</li>
-                            </ul>
-                        </div>
-
-                        <div class="card">
-                        <h4>Hemodialysis (HD) Dosing</h4>
-                    
-                        <div class="alert alert-secondary" style="border-radius:12px;">
-                            <b>Use case:</b> Intermittent hemodialysis patients requiring aminoglycoside therapy for TB / mycobacterial infections.
-                        </div>
-                    
-                        <b>Initial Dose</b>
-                        <ul>
-                            <li>Amikacin 10 mg/kg IV x1</li>
-                        </ul>
-                    
-                        <b>Maintenance / Follow-up</b>
-                        <ul>
-                            <li>Order placeholder dosing</li>
-                            <li>Ensure i-vent is opened to ensure clinical specialist follow-up</li>
-                        </ul>
-                    </div>
-    
-                    </div>
-                </div>
-
-                <!-- ======= GRAM POSITIVE SYNERGY TAB ========-->
-
-                <div class="tab-pane fade" id="synergy">
-
-                    <div class="alert alert-warning" style="border-radius:12px;">
-                        <b>When to use:</b>  If a patient is ordered for gentamicin with a documentation that this is for gram-positive endocarditis synergy.
-                        Reaching out to ID pharmacist during daytime to guide further dosing if this is ordered. 
-                    </div>
-                    
-                    <div class="card">
-                        <h4>Gentamicin (Gram-Positive Synergy – Endocarditis)</h4>
-                
-                        <ul>
-                            <li><b>Indication:</b> Gram-positive synergy (e.g., enterococcal or staphylococcal endocarditis)</li>
-                        </ul>
-                
-                        <b>Dose</b>
-                        <ul>
-                            <li>1 mg/kg IV every 8 hours</li>
-                        </ul>
-                
-                        <b>Maintenance Interval (renal adjustment)</b>
-                        <ul>
-                            <li>CrCl ≥60 mL/min: Every 8 hours</li>
-                            <li>CrCl 40–59 mL/min: Every 12 hours</li>
-                            <li>CrCl 20–39 mL/min: Every 24 hours</li>
-                            <li>CrCl &lt;20 mL/min: Give initial dose, then order gentamicin placeholder</li>
-                        </ul>
-                    </div>
-                
-                </div>
-         </div>
- </div>
-
-        <!-- ========================= -->
-        <!-- WEIGHT TAB -->
-        <!-- ========================= -->
-        <div class="tab-pane fade" id="weight">
-        
-            <div class="card p-3">
-        
-                <h5>Aminoglycoside Dosing Weight Selection</h5>
-        
-                <ul>
-                    <li><b>Primary approach:</b> Use Ideal Body Weight (IBW)</li>
-        
-                    <li><b>Obesity:</b> If Actual Body Weight (ABW) ≥ 1.25 × IBW → use Adjusted Body Weight (AdjBW)</li>
-        
-                    <li><b>Underweight:</b> If ABW < IBW → use ABW (Actual Body Weight)</li>
-        
-                    <li><b>Critically ill:</b> ABW may be used based on clinical judgment</li>
-                </ul>
-        
-                <hr/>
-        
-                <h6>IBW (Ideal Body Weight)</h6>
-                <ul>
-                    <li>Male: 50 + 2.3 kg per inch over 60 in</li>
-                    <li>Female: 45 + 2.3 kg per inch over 60 in</li>
-                </ul>
-        
-                <h6>AdjBW (Adjusted Body Weight)</h6>
-                <ul>
-                    <li>IBW + 0.4 × (ABW − IBW)</li>
-                </ul>
-        
-                <hr/>
-        
-                <h6>Abbreviations</h6>
-                <ul>
-                    <li><b>ABW:</b> Actual Body Weight</li>
-                    <li><b>IBW:</b> Ideal Body Weight</li>
-                    <li><b>AdjBW:</b> Adjusted Body Weight</li>
-                </ul>
-        
-            </div>
-        
-        </div>
-
-        <!-- ========================= -->
-        <!-- COMPARISON TAB -->
-        <!-- ========================= -->
-        <div class="tab-pane fade" id="comparison">
-        
-            <div class="card">
-                <h5>When to Use Conventional vs High-Dose Extended Interval dosing</h5>
-        
-                <div class="alert alert-primary" role="alert" style="border-radius:12px;">
-                    <b>Default:</b> High-dose extended interval is preferred for the vast majority of patients and is reflected in the all tabs except for the synergy tab.
-                    Conventional dosing (also known as traditional) should only be used when there is a clearly documented indication for gram-positive synergy.
-                </div>
-        
-                <h6 class="mt-3"><b>Default Strategy: High-Dose Extended Interval (Preferred)</b></h6>
-                <ul>
-                    <li><b>Use for:</b> All empiric or definitive gram-negative infections</li>
-                    <li><b>Rationale:</b> Maximizes peak/MIC and exploits post-antibiotic effect</li>
-                    <li><b>Benefits:</b> Lower nephrotoxicity risk via drug-free interval</li>
-                    <li><b>Monitoring:</b> Extended-interval nomogram or random level strategy</li>
-                    <li><b>Clinical scenarios:</b>
-                        sepsis, bacteremia, pneumonia, complicated intra-abdominal infection, UTI, etc.
-                    </li>
-                </ul>
-        
-                <hr/>
-        
-                <h6><b>Conventional Dosing (also known as traditional dosing)</b></h6>
-                <ul>
-                    <li><b>Use ONLY when:</b> Documented gram-positive synergy indication exists</li>
-                    <li><b>Primary indication:</b> Endocarditis (e.g., enterococcal or staphylococcal synergy regimens)</li>
-                    <li><b>Rationale:</b> Requires sustained low concentrations rather than high peaks</li>
-                    <li><b>Monitoring:</b> Peak and trough levels required</li>
-                    <li><b>Avoid use in:</b> routine gram-negative infections (inferior PK/PD exposure)</li>
-                </ul>
-        
-                <hr/>
-        
-            </div>
-        
-        </div>
-    </div>
+<div class="tabs">
+    <label for="tab1">Empiric Dosing Recommendations</label>
+    <label for="tab2">Dosing Weight Selection</label>
+    <label for="tab3">Conventional vs High-Dose EI</label>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<div class="content">
 
-<!-- UI behavior only (no computation) -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Bootstrap handles tab switching automatically via data-bs-toggle
-});
-</script>
+    <div id="panel1" class="panel">
+        <div class="card">
+            <h5>CPOV Guidance</h5>
+            <ul>
+                <li><b>iVent:</b> Open 'Communication to Clinical Specialist' for any aminoglycoside ordered for continuation &#62;48 hours</li>
+                <li>I-vent should notify clinical specialist on aminoglycoside order so they can appropriately follow-up on duration, monitoring, and need for pharmacy consult</li>
+                <li><b>One-time doses and surgical prophylaxis indications do not require maintenance dosing orders</b></li>
+            </ul>
+        </div>
+
+        <input type="radio" name="sub" id="sub1" checked="checked" />
+        <input type="radio" name="sub" id="sub2" />
+        <input type="radio" name="sub" id="sub3" />
+        <input type="radio" name="sub" id="sub4" />
+        <input type="radio" name="sub" id="sub5" />
+        <input type="radio" name="sub" id="sub6" />
+
+        <div class="sub-tabs">
+            <label for="sub1">Adult</label>
+            <label for="sub2">CVVH</label>
+            <label for="sub3">iHD</label>
+            <label for="sub4">Neonatal</label>
+            <label for="sub5">TB/Mycobacterial</label>
+            <label for="sub6">Gram Positive Synergy</label>
+        </div>
+
+        <div class="sub-content">
+            
+            <div id="psub1" class="sub-panel">
+                <div class="alert alert-blue">
+                    <b>Special Indications:</b> For treatment of chorioamnionitis, endometritis, or post-abortal infection, continue dosing per the institutional order set (e.g., gentamicin 5 mg/kg IV every 24 hours, using adjusted body weight).
+                </div>
+                
+                <div class="card">
+                    <h4>Gentamicin/Tobramycin (High-dose Extended-Interval)</h4>
+                    <b>Initial Dose:</b>
+                    <ul><li>7 mg/kg IV x1</li></ul>
+                    <b>Maintenance Interval:</b>
+                    <ul>
+                        <li>CrCl &#8805;60 mL/min: Every 24 hours</li>
+                        <li>CrCl 40&#8211;59 mL/min: Every 36 hours</li>
+                        <li>CrCl 20&#8211;39 mL/min: Every 48 hours</li>
+                        <li>CrCl &#60;20 mL/min: Give initial dose, then order gentamicin/tobramycin placeholder</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Amikacin (High-dose Extended-Interval)</h4>
+                    <b>Initial Dose:</b>
+                    <ul><li>15 mg/kg IV x1</li></ul>
+                    <b>Maintenance Interval:</b>
+                    <ul>
+                        <li>CrCl &#8805;60 mL/min: Every 24 hours</li>
+                        <li>CrCl 40&#8211;59 mL/min: Every 36 hours</li>
+                        <li>CrCl 20&#8211;39 mL/min: Every 48 hours</li>
+                        <li>CrCl &#60;20 mL/min: Give initial dose, then order amikacin placeholder</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="psub2" class="sub-panel">
+                <div class="card">
+                    <h4>Key Principles</h4>
+                    <ul>
+                        <li>Dosing depends on effluent rate and clearance</li>
+                        <li>Extended-interval dosing preferred</li>
+                        <li>Therapeutic drug monitoring essential</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Gentamicin / Tobramycin</h4>
+                    <ul>
+                        <li>Loading: 7 mg/kg IV x1</li>
+                        <li>Maintenance: Order gentamicin/tobramycin placeholder</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Amikacin</h4>
+                    <ul>
+                        <li>Loading: 15 mg/kg IV x1</li>
+                        <li>Maintenance: Order gentamicin/tobramycin placeholder</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="psub3" class="sub-panel">
+                <div class="card">
+                    <h4>Key Considerations in Intermittent Hemodialysis</h4>
+                    <ul>
+                        <li>Significant drug removal during dialysis</li>
+                        <li>Prefer post-dialysis dosing</li>
+                        <li>Require serum concentrations</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Gentamicin / Tobramycin</h4>
+                    <ul>
+                        <li>Initial: 3 mg/kg IV x1</li>
+                        <li>Maintenance: Order gentamicin/tobramycin placeholder</li>
+                        <li>Redose based on HD schedule</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Amikacin</h4>
+                    <ul>
+                        <li>Initial: 10 mg/kg IV x1</li>
+                        <li>Maintenance: Order amikacin placeholder</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="psub4" class="sub-panel">
+                <div class="alert alert-gray">
+                    <b>Abbreviations:</b><br/>
+                    <b>GA</b> = Gestational Age (weeks) | <b>PNA</b> = Postnatal Age (days)
+                </div>
+                
+                <div class="card">
+                    <h4>Gentamicin (Neonatal)</h4>
+                    <b>GA &#60;30 weeks</b>
+                    <ul>
+                        <li>PNA &#8804;14 days: 5 mg/kg q48h</li>
+                        <li>PNA &#62;14 days: 5 mg/kg q36h</li>
+                    </ul>
+                    <b>GA 30&#8211;34 weeks</b>
+                    <ul>
+                        <li>PNA &#8804;14 days: 5 mg/kg q36h</li>
+                        <li>PNA &#62;14 days: 5 mg/kg q24h</li>
+                    </ul>
+                    <b>GA 35&#8211;43 weeks</b>
+                    <ul>
+                        <li>PNA &#8804;7 days: 4 mg/kg q24h</li>
+                        <li>PNA &#62;7 days: 5 mg/kg q24h</li>
+                    </ul>
+                    <b>GA &#8805;44 weeks</b>
+                    <ul>
+                        <li>2.5 mg/kg q8h</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>Amikacin (Neonatal)</h4>
+                    <b>GA &#60;30 weeks</b>
+                    <ul>
+                        <li>PNA &#8804;14 days: 15 mg/kg q48h</li>
+                        <li>PNA &#62;14 days: 15 mg/kg q24h</li>
+                    </ul>
+                    <b>GA 30&#8211;34 weeks</b>
+                    <ul>
+                        <li>PNA &#8804;60 days: 15 mg/kg q24h</li>
+                    </ul>
+                    <b>GA 35&#8211;43 weeks</b>
+                    <ul>
+                        <li>PNA &#8804;7 days: 15 mg/kg q24h</li>
+                        <li>PNA &#62;7 days: 17.5 mg/kg q24h</li>
+                    </ul>
+                    <b>GA &#8805;44 weeks</b>
+                    <ul>
+                        <li>5&#8211;7.5 mg/kg q8h</li>
+                    </ul>
+                </div>
+                
+                <div class="alert alert-blue" style="font-size:12px;">
+                    <b>Guideline Source:</b> Neonatal aminoglycoside dosing recommendations are adapted from <b>Baylor institutional guidelines</b>.
+                </div>
+            </div>
+
+            <div id="psub5" class="sub-panel">
+                <div class="alert alert-warn">
+                    <b>When to use:</b> If a patient is ordered for an aminoglycoside with an indication "TB/mycobacterial infections" or if clinical notes suggest aminoglycoside is used for treatment of mycobacterial infection. Below guidance is only for systemic aminoglycosides.
+                </div>
+                
+                <div class="card">
+                    <h4>Continuation of Home Therapy (NTM)</h4>
+                    <ul>
+                        <li><b>Verify and continue home amikacin regimen</b></li>
+                        <li>Confirm dose, frequency, and indication</li>
+                    </ul>
+                    <b>Typical Dosing Patterns for reference</b>
+                    <ul>
+                        <li>15&#8211;25 mg/kg IV three times weekly (preferred)</li>
+                        <li>10&#8211;15 mg/kg IV five days per week or daily</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>New Start (TB / Mycobacterial Infections)</h4>
+                    <div style="margin-top: 10px;">
+                        <b>Treatment initiation (off-hours/weekend)</b>
+                        <ul>
+                            <li>If urgent initiation is required, it is reasonable to start amikacin 15&#8211;25 mg/kg IV three times weekly</li>
+                            <li>In addition to 'Communication to Clinical Specialist', reach out to ID pharmacist to notify for reassessment of regimen in daytime/weekday</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Hemodialysis (HD) Dosing</h4>
+                    <div class="alert alert-gray">
+                        <b>Use case:</b> Intermittent hemodialysis patients requiring aminoglycoside therapy for TB / mycobacterial infections.
+                    </div>
+                    <b>Initial Dose</b>
+                    <ul>
+                        <li>Amikacin 10 mg/kg IV x1</li>
+                    </ul>
+                    <b>Maintenance / Follow-up</b>
+                    <ul>
+                        <li>Order placeholder dosing</li>
+                        <li>Ensure i-vent is opened to ensure clinical specialist follow-up</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="psub6" class="sub-panel">
+                <div class="alert alert-warn">
+                    <b>When to use:</b> If a patient is ordered for gentamicin with a documentation that this is for gram-positive endocarditis synergy. Reaching out to ID pharmacist during daytime to guide further dosing if this is ordered.
+                </div>
+                
+                <div class="card">
+                    <h4>Gentamicin (Gram-Positive Synergy &#8211; Endocarditis)</h4>
+                    <ul>
+                        <li><b>Indication:</b> Gram-positive synergy (e.g., enterococcal or staphylococcal endocarditis)</li>
+                    </ul>
+                    <b>Dose</b>
+                    <ul>
+                        <li>1 mg/kg IV every 8 hours</li>
+                    </ul>
+                    <b>Maintenance Interval (renal adjustment)</b>
+                    <ul>
+                        <li>CrCl &#8805;60 mL/min: Every 8 hours</li>
+                        <li>CrCl 40&#8211;59 mL/min: Every 12 hours</li>
+                        <li>CrCl 20&#8211;39 mL/min: Every 24 hours</li>
+                        <li>CrCl &#60;20 mL/min: Give initial dose, then order gentamicin placeholder</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="panel2" class="panel">
+        <div class="card">
+            <h5>Aminoglycoside Dosing Weight Selection</h5>
+            <ul>
+                <li><b>Primary approach:</b> Use Ideal Body Weight (IBW)</li>
+                <li><b>Obesity:</b> If Actual Body Weight (ABW) &#8805; 1.25 &#215; IBW &#8594; use Adjusted Body Weight (AdjBW)</li>
+                <li><b>Underweight:</b> If ABW &#60; IBW &#8594; use ABW (Actual Body Weight)</li>
+                <li><b>Critically ill:</b> ABW may be used based on clinical judgment</li>
+            </ul>
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;"/>
+            <h6>IBW (Ideal Body Weight)</h6>
+            <ul>
+                <li>Male: 50 + 2.3 kg per inch over 60 in</li>
+                <li>Female: 45 + 2.3 kg per inch over 60 in</li>
+            </ul>
+            <h6>AdjBW (Adjusted Body Weight)</h6>
+            <ul>
+                <li>IBW + 0.4 &#215; (ABW &#8722; IBW)</li>
+            </ul>
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;"/>
+            <h6>Abbreviations</h6>
+            <ul>
+                <li><b>ABW:</b> Actual Body Weight</li>
+                <li><b>IBW:</b> Ideal Body Weight</li>
+                <li><b>AdjBW:</b> Adjusted Body Weight</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="panel3" class="panel">
+        <div class="card">
+            <h5>When to Use Conventional vs High-Dose Extended Interval dosing</h5>
+            
+            <div class="alert alert-blue">
+                <b>Default:</b> High-dose extended interval is preferred for the vast majority of patients and is reflected in the all tabs except for the synergy tab. Conventional dosing (also known as traditional) should only be used when there is a clearly documented indication for gram-positive synergy.
+            </div>
+            
+            <h6><b>Default Strategy: High-Dose Extended Interval (Preferred)</b></h6>
+            <ul>
+                <li><b>Use for:</b> All empiric or definitive gram-negative infections</li>
+                <li><b>Rationale:</b> Maximizes peak/MIC and exploits post-antibiotic effect</li>
+                <li><b>Benefits:</b> Lower nephrotoxicity risk via drug-free interval</li>
+                <li><b>Monitoring:</b> Extended-interval nomogram or random level strategy</li>
+                <li><b>Clinical scenarios:</b> sepsis, bacteremia, pneumonia, complicated intra-abdominal infection, UTI, etc.</li>
+            </ul>
+            
+            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;"/>
+            
+            <h6><b>Conventional Dosing (also known as traditional dosing)</b></h6>
+            <ul>
+                <li><b>Use ONLY when:</b> Documented gram-positive synergy indication exists</li>
+                <li><b>Primary indication:</b> Endocarditis (e.g., enterococcal or staphylococcal synergy regimens)</li>
+                <li><b>Rationale:</b> Requires sustained low concentrations rather than high peaks</li>
+                <li><b>Monitoring:</b> Peak and trough levels required</li>
+                <li><b>Avoid use in:</b> routine gram-negative infections (inferior PK/PD exposure)</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
