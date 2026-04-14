@@ -336,6 +336,25 @@
                                 <li>In addition to 'Communication to Clinical Specialist, reach out to ID pharmacist to notify for reassessment of regimen in daytime/weekday</li>
                             </ul>
                         </div>
+
+                        <div class="card">
+                        <h4>Hemodialysis (HD) Dosing</h4>
+                    
+                        <div class="alert alert-secondary" style="border-radius:12px;">
+                            <b>Use case:</b> Intermittent hemodialysis patients requiring aminoglycoside therapy for TB / mycobacterial infections.
+                        </div>
+                    
+                        <b>Initial Dose</b>
+                        <ul>
+                            <li>Amikacin 10 mg/kg IV x1</li>
+                        </ul>
+                    
+                        <b>Maintenance / Follow-up</b>
+                        <ul>
+                            <li>Order placeholder dosing</li>
+                            <li>Ensure i-vent is opened to ensure clinical specialist follow-up</li>
+                        </ul>
+                    </div>
     
                     </div>
                 </div>
@@ -378,30 +397,45 @@
         <!-- WEIGHT TAB -->
         <!-- ========================= -->
         <div class="tab-pane fade" id="weight">
-
-            <div class="card">
+        
+            <div class="card p-3">
+        
                 <h5>Aminoglycoside Dosing Weight Selection</h5>
-
+        
                 <ul>
-                    <li><b>Primary:</b> Ideal Body Weight (IBW)</li>
-                    <li><b>Obesity:</b> If ABW ≥ 1.25 × IBW → AdjBW</li>
-                    <li><b>Critically ill:</b> ABW may be used clinically</li>
+                    <li><b>Primary approach:</b> Use Ideal Body Weight (IBW)</li>
+        
+                    <li><b>Obesity:</b> If Actual Body Weight (ABW) ≥ 1.25 × IBW → use Adjusted Body Weight (AdjBW)</li>
+        
+                    <li><b>Underweight:</b> If ABW < IBW → use ABW (Actual Body Weight)</li>
+        
+                    <li><b>Critically ill:</b> ABW may be used based on clinical judgment</li>
                 </ul>
-
+        
                 <hr/>
-
-                <b>IBW</b>
+        
+                <h6>IBW (Ideal Body Weight)</h6>
                 <ul>
                     <li>Male: 50 + 2.3 kg per inch over 60 in</li>
                     <li>Female: 45 + 2.3 kg per inch over 60 in</li>
                 </ul>
-
-                <b>AdjBW</b>
+        
+                <h6>AdjBW (Adjusted Body Weight)</h6>
                 <ul>
                     <li>IBW + 0.4 × (ABW − IBW)</li>
                 </ul>
+        
+                <hr/>
+        
+                <h6>Abbreviations</h6>
+                <ul>
+                    <li><b>ABW:</b> Actual Body Weight</li>
+                    <li><b>IBW:</b> Ideal Body Weight</li>
+                    <li><b>AdjBW:</b> Adjusted Body Weight</li>
+                </ul>
+        
             </div>
-
+        
         </div>
 
         <!-- ========================= -->
