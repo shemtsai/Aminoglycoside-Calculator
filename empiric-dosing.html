@@ -75,8 +75,21 @@
             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#empiric">
                 Empiric Dosing (CPOV Guidance)
             </button>
+
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#weight">
+                Dosing Weight Selection
+            </button>
         </li>
+
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#comparison">
+                Conventional vs High-Dose EI
+            </button>
+        </li>
+
     </ul>
+
 
     <div class="tab-content pt-3">
 
@@ -94,31 +107,7 @@
                     <li>One-time doses without clear continuation plan do not require maintenance dosing orders</li>
                 </ul>
             </div>
-            
-            <div class="card">
-                <h5>Aminoglycoside Dosing Weight Selection</h5>
-            
-                <ul>
-                    <li><b>Primary dosing weight:</b> Ideal Body Weight (IBW) for most patients</li>
-                    <li><b>Obesity adjustment:</b> If Actual Body Weight (ABW) ≥ 1.25 × IBW, use Adjusted Body Weight (AdjBW)</li>
-                    <li><b>Critically ill (non-obese):</b> May consider ABW at clinician discretion</li>
-                </ul>
-            
-                <hr/>
-            
-                <b>IBW Calculations</b>
-                <ul>
-                    <li><b>Male:</b> 50 kg + 2.3 kg per inch over 60 inches</li>
-                    <li><b>Female:</b> 45 kg + 2.3 kg per inch over 60 inches</li>
-                </ul>
-            
-                <b>Adjusted Body Weight (when applicable)</b>
-                <ul>
-                    <li>AdjBW = IBW + 0.4 × (ABW − IBW)</li>
-                </ul>
-            
-            </div>
-
+        
             <!-- Nested Tabs -->
             <ul class="nav nav-pills mb-3" id="subTabs">
                 <li class="nav-item">
@@ -293,9 +282,8 @@
 
                 </div>
 
-                <!-- ========================= -->
-                <!-- GRAM POSITIVE SYNERGY TAB -->
-                <!-- ========================= -->
+                <!-- ======= GRAM POSITIVE SYNERGY TAB ========-->
+
                 <div class="tab-pane fade" id="synergy">
                 
                     <div class="card">
@@ -324,6 +312,83 @@
             </div>
         </div>
 
+                <!-- ========================= -->
+        <!-- WEIGHT TAB -->
+        <!-- ========================= -->
+        <div class="tab-pane fade" id="weight">
+
+            <div class="card">
+                <h5>Aminoglycoside Dosing Weight Selection</h5>
+
+                <ul>
+                    <li><b>Primary:</b> Ideal Body Weight (IBW)</li>
+                    <li><b>Obesity:</b> If ABW ≥ 1.25 × IBW → AdjBW</li>
+                    <li><b>Critically ill:</b> ABW may be used clinically</li>
+                </ul>
+
+                <hr/>
+
+                <b>IBW</b>
+                <ul>
+                    <li>Male: 50 + 2.3 kg per inch over 60 in</li>
+                    <li>Female: 45 + 2.3 kg per inch over 60 in</li>
+                </ul>
+
+                <b>AdjBW</b>
+                <ul>
+                    <li>IBW + 0.4 × (ABW − IBW)</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- COMPARISON TAB -->
+        <!-- ========================= -->
+        <div class="tab-pane fade" id="comparison">
+
+            <div class="card">
+                <h5>Conventional vs High-Dose Extended Interval</h5>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Conventional Dosing</th>
+                            <th>High-Dose Extended Interval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Strategy</td>
+                            <td>Multiple daily doses</td>
+                            <td>Large once-daily dose</td>
+                        </tr>
+                        <tr>
+                            <td>PK/PD driver</td>
+                            <td>Trough minimization</td>
+                            <td>Peak/MIC + post-antibiotic effect</td>
+                        </tr>
+                        <tr>
+                            <td>Toxicity focus</td>
+                            <td>AUC + accumulation</td>
+                            <td>Low trough exposure</td>
+                        </tr>
+                        <tr>
+                            <td>Monitoring</td>
+                            <td>Peak + trough</td>
+                            <td>Random level (Hartford/Nomogram)</td>
+                        </tr>
+                        <tr>
+                            <td>Clinical use</td>
+                            <td>Endocarditis synergy, select cases</td>
+                            <td>Sepsis, Gram-negative infections</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>
 
