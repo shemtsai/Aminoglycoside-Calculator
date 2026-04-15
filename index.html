@@ -934,15 +934,14 @@ function useInOptimization() {
 // Dose Optimization
 // ─────────────────────────────────────────────────
 function optimizeDose() {
-  // We check if we have stored high-precision data. 
-  // If the user manually edited the box, we fallback to v('id').
   const ke       = (storedPK.ke && v('ke_opt') == storedPK.ke.toFixed(4)) ? storedPK.ke : v('ke_opt');
   const vd       = (storedPK.vd && v('vd_opt') == storedPK.vd.toFixed(2)) ? storedPK.vd : v('vd_opt');
   const t_inf    = v('t_inf_opt');
   const interval = v('interval_opt');
   const mode     = sv('calc_mode');
 
-  const calcPeak   = (d) => (d / (vd * ke * t_inf)) * (1 - Math.exp(-ke * t_inf));
+
+  const calcPeak   = (d) => ((d / t_inf) * (1 - Math.exp(-ke * t_inf))) / (vd * ke * (1 - Math.exp(-ke * interval)));
   const calcTrough = (pk) => pk * Math.exp(-ke * (interval - t_inf));
   const calcAUC24  = (d)  => (d / (ke * vd)) * (24 / interval);
 
@@ -956,7 +955,8 @@ function optimizeDose() {
     predAUC24  = targetAUC;
   } else if (mode === 'peak') {
     const targetCmax = v('target_cmax');
-    newDose    = (targetCmax * vd * ke * t_inf) / (1 - Math.exp(-ke * t_inf));
+
+    newDose    = (targetCmax * vd * ke * t_inf * (1 - Math.exp(-ke * interval))) / (1 - Math.exp(-ke * t_inf));
     predPeak   = targetCmax;
     predTrough = calcTrough(predPeak);
     predAUC24  = calcAUC24(newDose);
@@ -971,7 +971,7 @@ function optimizeDose() {
     <div class="results-grid">
       <div class="result-item highlight" style="grid-column:1/-1;">
         <div class="r-label">Recommended Dose</div>
-        <div class="r-value">${newDose.toFixed(2)}</div> 
+        <div class="r-value">${newDose.toFixed(0)}</div>
         <div class="r-unit">mg</div>
       </div>
       <div class="result-item">
@@ -991,11 +991,12 @@ function optimizeDose() {
       </div>
     </div>`;
 
-  // Charting remains based on these high-precision values
+
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
     if (t_inf <= 0)  return predPeak * Math.exp(-ke * t);
-    if (t <= t_inf)  return predPeak * (t / t_inf);
+    // Linear approximation of steady-state infusion rising from trough
+    if (t <= t_inf)  return predTrough + ((predPeak - predTrough) * (t / t_inf));
     return predPeak * Math.exp(-ke * (t - t_inf));
   });
 
@@ -1004,6 +1005,16 @@ function optimizeDose() {
       label: 'Predicted Curve',
       data: times.map((t, i) => ({ x: t, y: concs[i] })),
       borderColor: '#0e7490', borderWidth: 2.5, pointRadius: 0, fill: false
+    },
+    {
+      label: `Peak = ${predPeak.toFixed(2)} mg/L`,
+      data: times.map(t => ({ x: t, y: predPeak })),
+      borderColor: '#ef4444', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false
+    },
+    {
+      label: `Trough = ${predTrough.toFixed(2)} mg/L`,
+      data: times.map(t => ({ x: t, y: predTrough })),
+      borderColor: '#f97316', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false
     }
   ], 'Time (hours)', 'Concentration (mg/L)');
 }
