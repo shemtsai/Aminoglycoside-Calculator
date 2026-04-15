@@ -307,8 +307,16 @@ server <- function(input, output, session) {
   # Dose Optimization Logic
   observeEvent(input$optimize_dose, {
 
-    calc_peak <- function(dose, vd, ke, t_inf) {
-      (dose/(vd * ke * t_inf)) * (1 - exp(-ke * t_inf))
+    # 1. High-Precision Background Math 
+    # Use exact stored values if the user hasn't manually overridden the input boxes
+    ke_val <- if (!is.null(pk_params$ke) && abs(input$ke_opt - round(pk_params$ke, 4)) < 1e-5) pk_params$ke else input$ke_opt
+    vd_val <- if (!is.null(pk_params$vd) && abs(input$vd_opt - round(pk_params$vd, 2)) < 1e-5) pk_params$vd else input$vd_opt
+    t_inf_val <- input$t_inf_opt
+    interval_val <- input$interval_opt
+
+    # Equations
+    calc_peak <- function(dose, vd, ke, t_inf, interval) {
+      ((dose / t_inf) * (1 - exp(-ke * t_inf))) / (vd * ke * (1 - exp(-ke * interval)))
     }
 
     calc_trough <- function(peak, ke, interval, t_inf) {
@@ -319,70 +327,78 @@ server <- function(input, output, session) {
       (dose / (ke * vd)) * (24 / interval)
     }
 
-    if (input$calc_mode == "peaktrough") {
-      new_dose <- (input$vd_opt * input$ke_opt * (1 - exp(-input$ke_opt * input$t_inf_opt)) *
-                    input$target_cmax * input$t_inf_opt) / (1 - exp(-input$ke_opt * input$t_inf_opt))
-
-      pred_peak <- input$target_cmax
-      pred_trough <- pred_peak * exp(-input$ke_opt * (input$interval_opt - input$t_inf_opt))
-      pred_auc24 <- calc_auc24(new_dose, input$vd_opt, input$ke_opt, input$interval_opt)
+    if (input$calc_mode == "peaktrough" || input$calc_mode == "peak") {
+      # Note: Added 'peak' here in case you add it to the UI dropdown later!
+      target_peak <- if (!is.null(input$target_cmax)) input$target_cmax else 10
+      new_dose <- (target_peak * vd_val * ke_val * t_inf_val * (1 - exp(-ke_val * interval_val))) / (1 - exp(-ke_val * t_inf_val))
+      
+      pred_peak <- target_peak
+      pred_trough <- calc_trough(pred_peak, ke_val, interval_val, t_inf_val)
+      pred_auc24 <- calc_auc24(new_dose, vd_val, ke_val, interval_val)
 
     } else if (input$calc_mode == "auc") {
-      new_dose <- input$target_auc * input$ke_opt * input$vd_opt * (input$interval_opt / 24)
+      new_dose <- input$target_auc * ke_val * vd_val * (interval_val / 24)
 
-      pred_peak <- calc_peak(new_dose, input$vd_opt, input$ke_opt, input$t_inf_opt)
-      pred_trough <- calc_trough(pred_peak, input$ke_opt, input$interval_opt, input$t_inf_opt)
+      pred_peak <- calc_peak(new_dose, vd_val, ke_val, t_inf_val, interval_val)
+      pred_trough <- calc_trough(pred_peak, ke_val, interval_val, t_inf_val)
       pred_auc24 <- input$target_auc
 
     } else { 
+      # "dose" mode
       new_dose <- input$input_dose
 
-      pred_peak <- calc_peak(new_dose, input$vd_opt, input$ke_opt, input$t_inf_opt)
-      pred_trough <- calc_trough(pred_peak, input$ke_opt, input$interval_opt, input$t_inf_opt)
-      pred_auc24 <- calc_auc24(new_dose, input$vd_opt, input$ke_opt, input$interval_opt)
+      pred_peak <- calc_peak(new_dose, vd_val, ke_val, t_inf_val, interval_val)
+      pred_trough <- calc_trough(pred_peak, ke_val, interval_val, t_inf_val)
+      pred_auc24 <- calc_auc24(new_dose, vd_val, ke_val, interval_val)
     }
 
-    output$opt_dose <- renderText({ paste("Dose:", round(new_dose, 1), "mg") })
+    output$opt_dose <- renderText({ paste("Dose:", round(new_dose, 0), "mg") })
     output$predicted_peak <- renderText({ paste("Predicted Peak:", round(pred_peak, 2), "mg/L") })
     output$predicted_trough <- renderText({ paste("Predicted Trough:", round(pred_trough, 2), "mg/L") })
     output$predicted_auc <- renderText({ paste("Predicted AUC24:", round(pred_auc24, 1), "mg·h/L") })
 
-    # Plot
-    time_seq <- seq(0, input$interval_opt, by = 0.1)
+    # Plotting Logic 
+    time_seq <- seq(0, interval_val, by = 0.1)
     conc_seq <- numeric(length(time_seq))
 
-    if (is.null(input$t_inf_opt) || input$t_inf_opt <= 0) {
-      conc_seq <- pred_peak * exp(-input$ke_opt * time_seq)
+    if (is.null(t_inf_val) || t_inf_val <= 0) {
+      conc_seq <- pred_peak * exp(-ke_val * time_seq)
     } else {
-      infusion_idx <- which(time_seq <= input$t_inf_opt)
-      post_idx <- which(time_seq > input$t_inf_opt)
+      infusion_idx <- which(time_seq <= t_inf_val)
+      post_idx <- which(time_seq > t_inf_val)
 
       if (length(infusion_idx) > 0) {
-      conc_seq[infusion_idx] <- pred_peak * (time_seq[infusion_idx] / input$t_inf_opt)
+        # Linear approximation of steady-state rise from trough
+        conc_seq[infusion_idx] <- pred_trough + ((pred_peak - pred_trough) * (time_seq[infusion_idx] / t_inf_val))
       }
       if (length(post_idx) > 0) {
-      conc_seq[post_idx] <- pred_peak * exp(-input$ke_opt * (time_seq[post_idx] - input$t_inf_opt))
+        conc_seq[post_idx] <- pred_peak * exp(-ke_val * (time_seq[post_idx] - t_inf_val))
       }
-      end_idx <- which(abs(time_seq - input$t_inf_opt) < 1e-8)
+      
+      end_idx <- which(abs(time_seq - t_inf_val) < 1e-8)
       if (length(end_idx) == 0) {
-      nearest <- which.min(abs(time_seq - input$t_inf_opt))
-      conc_seq[nearest] <- pred_peak
+        nearest <- which.min(abs(time_seq - t_inf_val))
+        conc_seq[nearest] <- pred_peak
       } else {
-      conc_seq[end_idx] <- pred_peak
+        conc_seq[end_idx] <- pred_peak
       }
     }
 
     plot_data <- data.frame(Time = time_seq, Concentration = conc_seq)
     output$opt_plot <- renderPlot({
       ggplot(plot_data, aes(x = Time, y = Concentration)) +
-      geom_line(color = "blue", size = 1) +
+      geom_line(color = "#2563eb", size = 1) +
       geom_hline(yintercept = pred_peak, linetype = "dashed", color = "red", alpha = 0.5) +
       geom_hline(yintercept = pred_trough, linetype = "dashed", color = "red", alpha = 0.5) +
-      labs(title = "Predicted Concentration-Time Curve",
+      labs(title = "Predicted Steady-State Concentration-Time Curve",
          x = "Time (hours)", y = "Concentration (mg/L)") +
-      theme_minimal()
+      theme_minimal(base_size = 14) + 
+      theme(
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(face = "bold", size = 16)
+      )
     })
-    })
+  })
 
   # Copy calculated PK parameters into Dose Optimization tab
   observeEvent(input$use_in_opt, {
