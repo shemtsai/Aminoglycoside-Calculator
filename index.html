@@ -841,19 +841,22 @@ function calculatePK() {
   if (c1_val <= 0 || c2_val <= 0) { toast('⚠ Concentrations must be > 0'); return; }
   if (t2_val <= t1_val)           { toast('⚠ t₂ must be after t₁');        return; }
 
+  // Background Calculation (High Precision)
   ke = Math.log(c1_val / c2_val) / (t2_val - t1_val);
 
-  const t_half    = 0.693 / ke;
+  const t_half    = 0.6931471805599453 / ke; // Used ln(2) more precisely
   const cmax      = c1_val / Math.exp(-ke * (t1_val - t_inf));
   const cmin      = cmax * Math.exp(-ke * (tau - t_inf));
   const vd        = ((dose / t_inf) * (1 - Math.exp(-ke * t_inf))) /
                     (cmax * ke * (1 - Math.exp(-ke * tau)));
   const clr       = vd * ke;
-  const clr_mlmin = clr * 16.67;
+  const clr_mlmin = clr * 16.666666666666668; // More precise mL/min conversion
   const auc24     = (dose / (ke * vd)) * (24 / tau);
 
-  storedPK = { ke, vd, t_half, t_inf, tau };
+  // Store high-precision values in the background object
+  storedPK = { ke, vd, t_half, t_inf, tau, cmax, cmin, auc24, clr };
 
+  // Render to UI (Visual truncation only)
   document.getElementById('pk-results').innerHTML = `
     <div class="results-grid">
       <div class="result-item">
@@ -908,7 +911,7 @@ function calculatePK() {
     }
   ], 'Time (hours)', 'Concentration (mg/L)');
 
-  toast('✓ PK parameters calculated. Click "Use Results in Optimization" to transfer them.');
+  toast('✓ PK parameters calculated.');
 }
 
 // ─────────────────────────────────────────────────
@@ -916,30 +919,29 @@ function calculatePK() {
 // ─────────────────────────────────────────────────
 function useInOptimization() {
   if (!storedPK.ke) { toast('⚠ Calculate PK parameters first.'); return; }
-  document.getElementById('ke_opt').value       = storedPK.ke.toFixed(4);
-  document.getElementById('vd_opt').value       = storedPK.vd.toFixed(2);
+  
+  // Update the UI fields, but notice we will reference storedPK in optimizeDose
+  document.getElementById('ke_opt').value       = storedPK.ke; 
+  document.getElementById('vd_opt').value       = storedPK.vd;
   if (storedPK.t_inf) document.getElementById('t_inf_opt').value    = storedPK.t_inf;
   if (storedPK.tau)   document.getElementById('interval_opt').value = storedPK.tau;
 
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-opt').classList.add('active');
-  document.querySelectorAll('.tab-btn')[1].classList.add('active');
-
-  toast('✓ Patient-specific parameters copied to Dose Optimization tab.');
+  switchTab('opt', document.querySelectorAll('.tab-btn')[1]);
+  toast('✓ High-precision parameters transferred to Optimization.');
 }
 
 // ─────────────────────────────────────────────────
 // Dose Optimization
 // ─────────────────────────────────────────────────
 function optimizeDose() {
-  const ke       = v('ke_opt');
-  const vd       = v('vd_opt');
+  // We check if we have stored high-precision data. 
+  // If the user manually edited the box, we fallback to v('id').
+  const ke       = (storedPK.ke && v('ke_opt') == storedPK.ke.toFixed(4)) ? storedPK.ke : v('ke_opt');
+  const vd       = (storedPK.vd && v('vd_opt') == storedPK.vd.toFixed(2)) ? storedPK.vd : v('vd_opt');
   const t_inf    = v('t_inf_opt');
   const interval = v('interval_opt');
   const mode     = sv('calc_mode');
 
-  // Reused equations – identical to existing implementations
   const calcPeak   = (d) => (d / (vd * ke * t_inf)) * (1 - Math.exp(-ke * t_inf));
   const calcTrough = (pk) => pk * Math.exp(-ke * (interval - t_inf));
   const calcAUC24  = (d)  => (d / (ke * vd)) * (24 / interval);
@@ -947,24 +949,18 @@ function optimizeDose() {
   let newDose, predPeak, predTrough, predAUC24;
 
   if (mode === 'auc') {
-    // Dose = AUC24_target * ke * Vd * (τ/24)  [rearrangement of AUC24 equation]
     const targetAUC = v('target_auc');
     newDose    = targetAUC * ke * vd * (interval / 24);
     predPeak   = calcPeak(newDose);
     predTrough = calcTrough(predPeak);
     predAUC24  = targetAUC;
-
   } else if (mode === 'peak') {
-    // Cmax = (Dose/(Vd*ke*t'))*(1-e^(-ke*t'))
-    // => Dose = Cmax_target * Vd * ke * t' / (1 - e^(-ke*t'))  [rearrangement of calcPeak]
     const targetCmax = v('target_cmax');
     newDose    = (targetCmax * vd * ke * t_inf) / (1 - Math.exp(-ke * t_inf));
-    predPeak   = calcPeak(newDose);   // resolves to targetCmax
+    predPeak   = targetCmax;
     predTrough = calcTrough(predPeak);
     predAUC24  = calcAUC24(newDose);
-
   } else {
-    // mode === 'dose'
     newDose    = v('input_dose');
     predPeak   = calcPeak(newDose);
     predTrough = calcTrough(predPeak);
@@ -975,7 +971,7 @@ function optimizeDose() {
     <div class="results-grid">
       <div class="result-item highlight" style="grid-column:1/-1;">
         <div class="r-label">Recommended Dose</div>
-        <div class="r-value">${newDose.toFixed(0)}</div>
+        <div class="r-value">${newDose.toFixed(2)}</div> 
         <div class="r-unit">mg</div>
       </div>
       <div class="result-item">
@@ -995,6 +991,7 @@ function optimizeDose() {
       </div>
     </div>`;
 
+  // Charting remains based on these high-precision values
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
     if (t_inf <= 0)  return predPeak * Math.exp(-ke * t);
@@ -1007,16 +1004,6 @@ function optimizeDose() {
       label: 'Predicted Curve',
       data: times.map((t, i) => ({ x: t, y: concs[i] })),
       borderColor: '#0e7490', borderWidth: 2.5, pointRadius: 0, fill: false
-    },
-    {
-      label: `Peak = ${predPeak.toFixed(2)} mg/L`,
-      data: times.map(t => ({ x: t, y: predPeak })),
-      borderColor: '#ef4444', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false
-    },
-    {
-      label: `Trough = ${predTrough.toFixed(2)} mg/L`,
-      data: times.map(t => ({ x: t, y: predTrough })),
-      borderColor: '#f97316', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false
     }
   ], 'Time (hours)', 'Concentration (mg/L)');
 }
