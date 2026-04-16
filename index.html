@@ -5,65 +5,127 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Aminoglycoside PK Calculator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root {
-  --bg:        #f0f4f8;
-  --surface:   #ffffff;
-  --border:    #dce4ef;
-  --primary:   #1a3a5c;
-  --accent:    #0e7490;
-  --text:      #1e293b;
-  --muted:     #64748b;
-  --radius:    12px;
-  --font-all:  'Source Serif 4', serif;
-}
+  :root {
+    --bg:        #f0f4f8;
+    --surface:   #ffffff;
+    --border:    #dce4ef;
+    --primary:   #1a3a5c;
+    --accent:    #0e7490;
+    --accent2:   #06b6d4;
+    --text:      #1e293b;
+    --muted:     #64748b;
+    --success:   #0d7a5f;
+    --radius:    12px;
+    --shadow:    0 2px 16px rgba(14,116,144,0.08);
+  }
 
-body {
-  font-family: var(--font-all);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Apply the font to EVERY element explicitly */
-button, input, select, label, div, span, textarea {
-  font-family: var(--font-all) !important;
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
 
-/* FIX: Prevent column bleeding by widening the label area */
-.grid-2 { 
-  display: grid; 
-  grid-template-columns: 1fr 1.2fr; /* Flexible sizing to prevent overlap */
-  gap: 40px; 
-  align-items: start;
-}
+  header {
+    background: var(--primary);
+    color: #fff;
+    padding: 28px 40px 24px;
+    border-bottom: 3px solid var(--accent2);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  header span.sub {
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-/* FIX: Increase vertical space between input rows */
-.form-group { 
-  margin-bottom: 24px; 
-}
+  .tab-bar {
+    background: var(--primary);
+    display: flex;
+    gap: 4px;
+    padding: 0 40px;
+  }
+  .tab-btn {
+    padding: 10px 22px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s;
+    letter-spacing: 0.03em;
+  }
+  .tab-btn.active { color: #fff; border-bottom-color: var(--accent2); }
+  .tab-btn:hover:not(.active) { color: rgba(255,255,255,.8); }
 
-/* FIX: Ensure the input boxes don't overflow their containers */
-input[type="number"], input[type="date"], input[type="time"], select {
-  width: 100%;
-  padding: 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  box-sizing: border-box; /* Critical for preventing bleeding */
-  font-size: 1rem;
-}
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 
-/* FIX: Stop labels from crowding the inputs */
-label {
-  display: block;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-  color: var(--primary);
-}
+  .container { max-width: 1160px; margin: 0 auto; padding: 32px 24px 0; }
+  .grid-2 { display: grid; grid-template-columns: 340px 1fr; gap: 24px; }
+
+  @media (max-width: 760px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    header { padding: 20px 20px 16px; }
+    .tab-bar { padding: 0 20px; }
+    .container { padding: 20px 14px 0; }
+  }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .card h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h3 .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    flex-shrink: 0;
+  }
+
+  .form-group { margin-bottom: 14px; }
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
   input[type="number"], input[type="date"], input[type="time"], select {
     width: 100%;
     padding: 9px 12px;
@@ -315,19 +377,6 @@ label {
     border-radius: 4px;
     border: 1px solid #e2e8f0;
   }
-
-header h1 { font-family: var(--font-header); }
-
-.tab-btn, .btn, label, select, input { 
-  font-family: var(--font-ui) !important; 
-}
-
-.r-value, .snippet-text, .eq-body, .eq-note, .sub {
-  font-family: var(--font-data) !important;
-  font-variant-numeric: tabular-nums; 
-}
-
-.card h3 { font-family: var(--font-header); }
   
 </style>
 </head>
@@ -349,37 +398,84 @@ header h1 { font-family: var(--font-header); }
 <div id="tab-pk" class="tab-panel active">
 <div class="container">
 
-<div class="eq-toggle-wrap" style="margin-top: 20px;">
-  <button class="eq-toggle-btn" id="eq-btn-opt" onclick="toggleEq('opt')">
-    <span id="eq-btn-opt-label">Show Optimization Formulas</span>
-    <span class="arrow">▼</span>
-  </button>
-  <div class="eq-panel" id="eq-panel-opt">
-    <div class="eq-section-title">Dose Optimization Formulas</div>
-    <div class="eq-grid">
-      <div class="eq-item">
-        <div class="eq-name">Predicted Peak (Cₘₐₓ)</div>
-        <div class="eq-body">Cₘₐₓ = <span class="frac"><span class="num">Dose</span><span class="den">Vᵈ · kₑ · t′</span></span> · (1 − e⁻ᵏᵉᵗ′)</div>
-      </div>
-      <div class="eq-item">
-        <div class="eq-name">Predicted Trough (Cₘᵢₙ)</div>
-        <div class="eq-body">Cₘᵢₙ = Cₘₐₓ · e⁻ᵏᵉ⁽ᵗᵃᵘ⁻ᵗ′⁾</div>
-      </div>
-      <div class="eq-item">
-        <div class="eq-name">Predicted AUC₂₄</div>
-        <div class="eq-body">AUC₂₄ = <span class="frac"><span class="num">Dose</span><span class="den">kₑ · Vᵈ</span></span> · <span class="frac"><span class="num">24</span><span class="den">τ</span></span></div>
-      </div>
-      <div class="eq-item">
-        <div class="eq-name">Dose from Target AUC₂₄</div>
-        <div class="eq-body">Dose = AUC₂₄,ₜₐᵣ · kₑ · Vᵈ · <span class="frac"><span class="num">τ</span><span class="den">24</span></span></div>
-      </div>
-      <div class="eq-item">
-        <div class="eq-name">Dose from Target Peak</div>
-        <div class="eq-body">Dose = <span class="frac"><span class="num">Cₘₐₓ,ₜₐᵣ · Vᵈ · kₑ · t′</span><span class="den">1 − e⁻ᵏᵉᵗ′</span></span></div>
+  <!-- Equations toggle -->
+  <div class="eq-toggle-wrap">
+    <button class="eq-toggle-btn" id="eq-btn-pk" onclick="toggleEq('pk')">
+      <span id="eq-btn-pk-label">Show PK Equations</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="eq-panel" id="eq-panel-pk">
+
+      <div class="eq-section-title">Parameter Estimation from Two Levels</div>
+      <div class="eq-grid">
+
+        <div class="eq-item">
+          <div class="eq-name">Elimination Rate Constant (k<sub>e</sub>)</div>
+          <div class="eq-body">
+            k<sub>e</sub> =
+            <span class="frac"><span class="num">ln(C₁ / C₂)</span><span class="den">t₂ − t₁</span></span>
+          </div>
+          <div class="eq-note">t₁, t₂ = hours after <em>start</em> of infusion</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Elimination Half-Life (t<sub>½</sub>)</div>
+          <div class="eq-body">
+            t<sub>½</sub> =
+            <span class="frac"><span class="num">0.693</span><span class="den">k<sub>e</sub></span></span>
+          </div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Extrapolated Peak (C<sub>max</sub>)</div>
+          <div class="eq-body">
+            C<sub>max</sub> =
+            <span class="frac"><span class="num">C₁</span><span class="den">e<sup>−k<sub>e</sub>(t₁ − t′)</sup></span></span>
+          </div>
+          <div class="eq-note">t′ = infusion duration (hr)</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Extrapolated Trough (C<sub>min</sub>)</div>
+          <div class="eq-body">
+            C<sub>min</sub> = C<sub>max</sub> · e<sup>−k<sub>e</sub>(τ − t′)</sup>
+          </div>
+          <div class="eq-note">τ = dosing interval (hr)</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Volume of Distribution (V<sub>d</sub>)</div>
+          <div class="eq-body">
+            V<sub>d</sub> =
+            <span class="frac">
+              <span class="num">(Dose/t′) · (1 − e<sup>−k<sub>e</sub>t′</sup>)</span>
+              <span class="den">C<sub>max</sub> · k<sub>e</sub> · (1 − e<sup>−k<sub>e</sub>τ</sup>)</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Clearance (Cl<sub>r</sub>)</div>
+          <div class="eq-body">
+            Cl<sub>r</sub> = V<sub>d</sub> · k<sub>e</sub>
+          </div>
+          <div class="eq-note">L/hr — multiply by 16.67 for mL/min</div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">AUC₂₄</div>
+          <div class="eq-body">
+            AUC<sub>24</sub> =
+            <span class="frac"><span class="num">Dose</span><span class="den">k<sub>e</sub> · V<sub>d</sub></span></span>
+            ·
+            <span class="frac"><span class="num">24</span><span class="den">τ</span></span>
+          </div>
+          <div class="eq-note">mg·h/L</div>
+        </div>
+
       </div>
     </div>
-  </div>
-</div>
+  </div><!-- /eq-toggle-wrap -->
 
   <div class="grid-2">
 
@@ -499,53 +595,72 @@ header h1 { font-family: var(--font-header); }
 <div id="tab-opt" class="tab-panel">
 <div class="container">
 
-<div class="eq-toggle-wrap">
-  <button class="eq-toggle-btn" id="eq-btn-opt" onclick="toggleEq('opt')">
-    <span id="eq-btn-opt-label">Show Optimization Equations</span>
-    <span class="arrow">▼</span>
-  </button>
-  <div class="eq-panel" id="eq-panel-opt">
-    <div class="eq-section-title">Dose Optimization Formulas</div>
-    <div class="eq-grid">
+  <!-- Equations toggle -->
+  <div class="eq-toggle-wrap">
+    <button class="eq-toggle-btn" id="eq-btn-opt" onclick="toggleEq('opt')">
+      <span id="eq-btn-opt-label">Show Optimization Equations</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="eq-panel" id="eq-panel-opt">
 
-      <div class="eq-item">
-        <div class="eq-name">Predicted Peak (Cₘₐₓ)</div>
-        <div class="eq-body">
-          Cₘₐₓ = <span class="frac"><span class="num">Dose</span><span class="den">Vᵈ · kₑ · t′</span></span> · (1 − e⁻ᵏᵉᵗ′)
+      <div class="eq-section-title">Predicted Concentrations from Dose</div>
+      <div class="eq-grid">
+
+        <div class="eq-item">
+          <div class="eq-name">Predicted Peak (C<sub>max</sub>)</div>
+          <div class="eq-body">
+            C<sub>max</sub> =
+            <span class="frac"><span class="num">Dose</span><span class="den">V<sub>d</sub> · k<sub>e</sub> · t′</span></span>
+            · (1 − e<sup>−k<sub>e</sub>t′</sup>)
+          </div>
         </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Predicted Trough (C<sub>min</sub>)</div>
+          <div class="eq-body">
+            C<sub>min</sub> = C<sub>max</sub> · e<sup>−k<sub>e</sub>(τ − t′)</sup>
+          </div>
+        </div>
+
+        <div class="eq-item">
+          <div class="eq-name">Predicted AUC₂₄</div>
+          <div class="eq-body">
+            AUC<sub>24</sub> =
+            <span class="frac"><span class="num">Dose</span><span class="den">k<sub>e</sub> · V<sub>d</sub></span></span>
+            ·
+            <span class="frac"><span class="num">24</span><span class="den">τ</span></span>
+          </div>
+        </div>
+
       </div>
 
-      <div class="eq-item">
-        <div class="eq-name">Predicted Trough (Cₘᵢₙ)</div>
-        <div class="eq-body">
-          Cₘᵢₙ = Cₘₐₓ · e⁻ᵏᵉ⁽ᵗᵃᵘ⁻ᵗ′⁾
-        </div>
-      </div>
+      <div class="eq-section-title">Back-Calculation: Dose from Target</div>
+      <div class="eq-grid">
 
-      <div class="eq-item">
-        <div class="eq-name">Predicted AUC₂₄</div>
-        <div class="eq-body">
-          AUC₂₄ = <span class="frac"><span class="num">Dose</span><span class="den">kₑ · Vᵈ</span></span> · <span class="frac"><span class="num">24</span><span class="den">τ</span></span>
+        <div class="eq-item">
+          <div class="eq-name">Dose from AUC Target</div>
+          <div class="eq-body">
+            Dose = AUC<sub>24,target</sub> · k<sub>e</sub> · V<sub>d</sub> ·
+            <span class="frac"><span class="num">τ</span><span class="den">24</span></span>
+          </div>
+          <div class="eq-note">Rearrangement of the AUC₂₄ equation above</div>
         </div>
-      </div>
 
-      <div class="eq-item">
-        <div class="eq-name">Dose from Target AUC₂₄</div>
-        <div class="eq-body">
-          Dose = AUC₂₄,ₜₐᵣ · kₑ · Vᵈ · <span class="frac"><span class="num">τ</span><span class="den">24</span></span>
+        <div class="eq-item">
+          <div class="eq-name">Dose from Peak Target</div>
+          <div class="eq-body">
+            Dose =
+            <span class="frac">
+              <span class="num">C<sub>max,target</sub> · V<sub>d</sub> · k<sub>e</sub> · t′</span>
+              <span class="den">1 − e<sup>−k<sub>e</sub>t′</sup></span>
+            </span>
+          </div>
+          <div class="eq-note">Rearrangement of the predicted peak equation above</div>
         </div>
-      </div>
 
-      <div class="eq-item">
-        <div class="eq-name">Dose from Target Peak</div>
-        <div class="eq-body">
-          Dose = <span class="frac"><span class="num">Cₘₐₓ,ₜₐᵣ · Vᵈ · kₑ · t′</span><span class="den">1 − e⁻ᵏᵉᵗ′</span></span>
-        </div>
       </div>
-
     </div>
-  </div>
-</div>
+  </div><!-- /eq-toggle-wrap -->
 
   <div class="grid-2">
 
