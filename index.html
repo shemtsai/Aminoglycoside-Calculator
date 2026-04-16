@@ -971,7 +971,7 @@ function calculatePK() {
   document.getElementById('pk-results').innerHTML += `
     <div class="snippet-container">
       <div class="snippet-header">
-        <label>CLINICAL NOTE SNIPPET</label>
+        <label>Summary (copy/pastable into documentation) </label>
         <button class="copy-btn" onclick="copyToClipboard('pk-snippet-text')">Copy</button>
       </div>
       <div id="pk-snippet-text" class="snippet-text">${generateClinicalSnippet(snippetData)}</div>
