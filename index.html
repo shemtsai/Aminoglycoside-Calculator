@@ -399,82 +399,37 @@
 <div class="container">
 
   <!-- Equations toggle -->
-  <div class="eq-toggle-wrap">
-    <button class="eq-toggle-btn" id="eq-btn-pk" onclick="toggleEq('pk')">
-      <span id="eq-btn-pk-label">Show PK Equations</span>
-      <span class="arrow">▼</span>
-    </button>
-    <div class="eq-panel" id="eq-panel-pk">
-
-      <div class="eq-section-title">Parameter Estimation from Two Levels</div>
-      <div class="eq-grid">
-
-        <div class="eq-item">
-          <div class="eq-name">Elimination Rate Constant (k<sub>e</sub>)</div>
-          <div class="eq-body">
-            k<sub>e</sub> =
-            <span class="frac"><span class="num">ln(C₁ / C₂)</span><span class="den">t₂ − t₁</span></span>
-          </div>
-          <div class="eq-note">t₁, t₂ = hours after <em>start</em> of infusion</div>
-        </div>
-
-        <div class="eq-item">
-          <div class="eq-name">Elimination Half-Life (t<sub>½</sub>)</div>
-          <div class="eq-body">
-            t<sub>½</sub> =
-            <span class="frac"><span class="num">0.693</span><span class="den">k<sub>e</sub></span></span>
-          </div>
-        </div>
-
-        <div class="eq-item">
-          <div class="eq-name">Extrapolated Peak (C<sub>max</sub>)</div>
-          <div class="eq-body">
-            C<sub>max</sub> =
-            <span class="frac"><span class="num">C₁</span><span class="den">e<sup>−k<sub>e</sub>(t₁ − t′)</sup></span></span>
-          </div>
-          <div class="eq-note">t′ = infusion duration (hr)</div>
-        </div>
-
-        <div class="eq-item">
-          <div class="eq-name">Extrapolated Trough (C<sub>min</sub>)</div>
-          <div class="eq-body">
-            C<sub>min</sub> = C<sub>max</sub> · e<sup>−k<sub>e</sub>(τ − t′)</sup>
-          </div>
-          <div class="eq-note">τ = dosing interval (hr)</div>
-        </div>
-
-        <div class="eq-item">
-          <div class="eq-name">Volume of Distribution (V<sub>d</sub>)</div>
-          <div class="eq-body">
-            V<sub>d</sub> =
-            <span class="frac">
-              <span class="num">(Dose/t′) · (1 − e<sup>−k<sub>e</sub>t′</sup>)</span>
-              <span class="den">C<sub>max</sub> · k<sub>e</sub> · (1 − e<sup>−k<sub>e</sub>τ</sup>)</span>
-            </span>
-          </div>
-        </div>
-
-        <div class="eq-item">
-          <div class="eq-name">Clearance (Cl<sub>r</sub>)</div>
-          <div class="eq-body">
-            Cl<sub>r</sub> = V<sub>d</sub> · k<sub>e</sub>
-          </div>
-          <div class="eq-note">L/hr — multiply by 16.67 for mL/min</div>
-        </div>
-
-        <div class="eq-item">
-          <div class="eq-name">AUC₂₄</div>
-          <div class="eq-body">
-            AUC<sub>24</sub> =
-            <span class="frac"><span class="num">Dose</span><span class="den">k<sub>e</sub> · V<sub>d</sub></span></span>
-            ·
-            <span class="frac"><span class="num">24</span><span class="den">τ</span></span>
-          </div>
-          <div class="eq-note">mg·h/L</div>
-        </div>
-
+<div class="eq-toggle-wrap">
+  <button class="eq-toggle-btn" id="eq-btn-opt" onclick="toggleEq('opt')">
+    <span id="eq-btn-opt-label">Show Optimization Equations</span>
+    <span class="arrow">▼</span>
+  </button>
+  <div class="eq-panel" id="eq-panel-opt">
+    <div class="eq-section-title">Dose Optimization Formulas</div>
+    <div class="eq-grid">
+      <div class="eq-item">
+        <div class="eq-name">Predicted Peak (Cₘₐₓ)</div>
+        <div class="eq-body">Cₘₐₓ = <span class="frac"><span class="num">Dose</span><span class="den">Vᵈ · kₑ · t′</span></span> · (1 − e⁻ᵏᵉᵗ′)</div>
+      </div>
+      <div class="eq-item">
+        <div class="eq-name">Predicted Trough (Cₘᵢₙ)</div>
+        <div class="eq-body">Cₘᵢₙ = Cₘₐₓ · e⁻ᵏᵉ⁽ᵗᵃᵘ⁻ᵗ′⁾</div>
+      </div>
+      <div class="eq-item">
+        <div class="eq-name">Predicted AUC₂₄</div>
+        <div class="eq-body">AUC₂₄ = <span class="frac"><span class="num">Dose</span><span class="den">kₑ · Vᵈ</span></span> · <span class="frac"><span class="num">24</span><span class="den">τ</span></span></div>
+      </div>
+      <div class="eq-item">
+        <div class="eq-name">Dose from Target AUC₂₄</div>
+        <div class="eq-body">Dose = AUC₂₄,ₜₐᵣ · kₑ · Vᵈ · <span class="frac"><span class="num">τ</span><span class="den">24</span></span></div>
+      </div>
+      <div class="eq-item">
+        <div class="eq-name">Dose from Target Peak</div>
+        <div class="eq-body">Dose = <span class="frac"><span class="num">Cₘₐₓ,ₜₐᵣ · Vᵈ · kₑ · t′</span><span class="den">1 − e⁻ᵏᵉᵗ′</span></span></div>
       </div>
     </div>
+  </div>
+</div>
   </div><!-- /eq-toggle-wrap -->
 
   <div class="grid-2">
