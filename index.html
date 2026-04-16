@@ -336,6 +336,48 @@
   }
   footer a { color: var(--accent); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
+
+  /* --- Clinical Note Snippet Styles --- */
+  .snippet-container {
+    margin-top: 16px;
+    background: #f8fafc;
+    border: 1px dashed var(--muted);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .snippet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .snippet-header label {
+    margin-bottom: 0; /* Align with button */
+  }
+  .copy-btn {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+  }
+  .copy-btn:hover { background: var(--primary); }
+  .snippet-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--primary);
+    white-space: pre-wrap;
+    line-height: 1.5;
+    background: white;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+  }
+  
 </style>
 </head>
 <body>
@@ -704,6 +746,24 @@
 </footer>
 
 <script>
+
+  function copyToClipboard(id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    toast('✓ Copied to clipboard');
+  });
+}
+
+function generateClinicalSnippet(p) {
+  return `PK DATA:
+Ke: ${p.ke} hr⁻¹
+t½: ${p.thalf} hr
+Vd: ${p.vd} L
+Clr: ${p.clr} L/hr (${p.clrml} mL/min)
+Cmax: ${p.cmax} mg/L
+Cmin: ${p.cmin} mg/L
+AUC24: ${p.auc} mg·h/L`;
+}
 // ─────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────
@@ -896,6 +956,27 @@ function calculatePK() {
       </div>
     </div>`;
 
+  // Prepare and append the snippet
+  const snippetData = {
+    ke: ke.toFixed(4),
+    thalf: t_half.toFixed(2),
+    vd: vd.toFixed(2),
+    clr: clr.toFixed(2),
+    clrml: clr_mlmin.toFixed(1),
+    cmax: cmax.toFixed(2),
+    cmin: cmin.toFixed(2),
+    auc: auc24.toFixed(1)
+  };
+
+  document.getElementById('pk-results').innerHTML += `
+    <div class="snippet-container">
+      <div class="snippet-header">
+        <label>CLINICAL NOTE SNIPPET</label>
+        <button class="copy-btn" onclick="copyToClipboard('pk-snippet-text')">Copy</button>
+      </div>
+      <div id="pk-snippet-text" class="snippet-text">${generateClinicalSnippet(snippetData)}</div>
+    </div>`;
+
   const times = linspace(t_inf, tau, 300);
   pkChartInstance = renderChart('pkChart', pkChartInstance, [
     {
@@ -991,6 +1072,26 @@ function optimizeDose() {
       </div>
     </div>`;
 
+  // Prepare and append the snippet
+  const optSnippetData = {
+    ke: ke.toFixed(4),
+    thalf: (0.693/ke).toFixed(2),
+    vd: vd.toFixed(2),
+    clr: (ke * vd).toFixed(2),
+    clrml: (ke * vd * 16.67).toFixed(1),
+    cmax: predPeak.toFixed(2),
+    cmin: predTrough.toFixed(2),
+    auc: predAUC24.toFixed(1)
+  };
+
+  document.getElementById('opt-results').innerHTML += `
+    <div class="snippet-container">
+      <div class="snippet-header">
+        <label>CLINICAL NOTE SNIPPET</label>
+        <button class="copy-btn" onclick="copyToClipboard('opt-snippet-text')">Copy</button>
+      </div>
+      <div id="opt-snippet-text" class="snippet-text">${generateClinicalSnippet(optSnippetData)}</div>
+    </div>`;
 
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
