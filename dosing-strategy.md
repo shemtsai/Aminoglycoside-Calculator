@@ -38,23 +38,28 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 # Aminoglycoside Extended-Interval (EI) Dosing Algorithm
 
 ```mermaid
-flowchart TD
-    %% Step 1: Checklist
-    Start[<b>Step 1: EI Eligibility Checklist</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection] --> B{Any Exclusions<br/>Present?}
+flowchart LR
+    %% Main Checklist
+    Start[<b>Step 1: EI Eligibility Checklist</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection] 
     
-    %% Step 2: Outcomes
-    B -- "No" --> EI[<b>Extended-Interval Dosing</b>]
-    B -- "Yes" --> C{Is it Synergy, AKI,<br/>or CrCl 20?}
+    %% First Decision
+    Start --> B{Any Exclusions<br/>Present?}
     
-    C -- "Yes" --> Conv[<b>Conventional Dosing</b>]
+    %% Success Path
+    B -- No --> EI[<b>Extended-Interval Dosing</b>]
 
-    %% Step 3: Referral
-    C -- "No" --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
+    %% Second Decision
+    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl 20?}
+    
+    %% Outcomes
+    C -- Yes --> Conv[<b>Conventional Dosing</b>]
+    
+    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
 
     %% STYLING SECTION
-    %% This 'class' approach is the most stable way to force width
-    classDef wideBox width:400px,text-align:left;
-    classDef outcomeBox width:300px,text-align:center;
+    %% Using min-width ensures the boxes feel substantial and horizontal
+    classDef wideBox min-width:350px,text-align:left;
+    classDef outcomeBox min-width:250px,text-align:center;
 
     class Start,D wideBox;
     class EI,Conv outcomeBox;
