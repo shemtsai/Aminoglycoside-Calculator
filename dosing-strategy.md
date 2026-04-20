@@ -39,15 +39,21 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 flowchart LR
     Start([Start: Aminoglycoside Evaluation]) --> Criteria{Exclusion Criteria<br/>Present?}
     
-    %% Exclusion List Callout
-    Criteria --- List[<b>Exclusion Criteria:</b><br/>• Gram-positive synergy<br/>• Renal insufficiency / AKI<br/>• Hemodialysis / CRRT<br/>• Unstable renal function<br/>• Surgical prophylaxis<br/>• Pregnancy / Neonatal<br/>• NTM infection]
+    %% The Criteria List (Pinned to the side)
+    Criteria --- List[Exclusion Criteria:<br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI<br/>- Hemodialysis / CRRT<br/>- Unstable renal function<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection]
     style List fill:#fff9c4,stroke:#fbc02d,text-align:left
 
-    %% Main Path
-    Criteria -- No --> EI[<b>Extended-Interval Dosing</b>]
+    %% THE VERTICAL DROP: We use a subgraph to force "No" below "Criteria"
+    subgraph Main_Success_Path [ ]
+        direction TB
+        Criteria
+        EI[<b>Extended-Interval Dosing</b>]
+    end
+    Criteria -- No --> EI
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style Main_Success_Path fill:none,stroke:none
 
-    %% Exclusion Branching
+    %% THE HORIZONTAL BRANCH
     Criteria -- Yes --> ExclusionType{Identify Type}
 
     ExclusionType --> F[<b>Conventional Dosing</b>]
