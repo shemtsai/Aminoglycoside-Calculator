@@ -37,31 +37,28 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    Start([Start: Aminoglycoside Evaluation]) --> Criteria{Exclusion Criteria<br/>Present?}
+    Start([Start: Aminoglycoside Evaluation]) --> Criteria{Exclusion<br/>Criteria?}
     
-    %% Main Path
+    %% Vertical Path
     Criteria -- No --> EI[<b>Extended-Interval Dosing</b>]
-    style EI fill:#d4edda,stroke:#28a745
+    style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
 
-    %% Exclusion Path
-    Criteria -- Yes --> ExclusionType{Exclusion Type}
+    %% Horizontal Branching
+    Criteria -- Yes --> ExclusionType{Identify Type}
+    
+    ExclusionType -.-> Conv[<b>Conventional Dosing</b>]
+    style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
-    %% Grouping Outcomes
-    subgraph Specialty_Protocols [Specialty Dosing Protocols]
-        direction TB
-        G[Hemodialysis Protocol]
-        H[CRRT Protocol]
-        I[Surgical Prophylaxis]
-        J[Neonatal Section]
-        K[NTM Section]
+    %% Reference Nodes pushed to the right
+    ExclusionType --> HD[Hemodialysis Protocol]
+    ExclusionType --> CRRT[CRRT Protocol]
+    ExclusionType --> Surg[Surgical Prophylaxis]
+    ExclusionType --> Neo[Neonatal Section]
+    ExclusionType --> NTM[NTM Section]
+
+    %% Layout Tweak: Forcing alignment
+    subgraph References [Specialty Reference Protocols]
+        direction LR
+        HD --- CRRT --- Surg --- Neo --- NTM
     end
-
-    ExclusionType -->|Synergy / AKI| F[<b>Conventional Dosing</b>]
-    style F fill:#f8d7da,stroke:#dc3545
-
-    ExclusionType -->|HD| G
-    ExclusionType -->|CRRT| H
-    ExclusionType -->|Surgery| I
-    ExclusionType -->|Neonatal| J
-    ExclusionType -->|NTM| K
 ```
