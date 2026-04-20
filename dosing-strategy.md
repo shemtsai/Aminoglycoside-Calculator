@@ -38,17 +38,17 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 ```mermaid
 flowchart TD
 
-A[Start: Aminoglycoside Dosing Evaluation] --> B{Eligible for Extended-Interval (EI) Dosing?}
+A[Start: Aminoglycoside Dosing Evaluation] --> B{Eligible for Extended-Interval EI dosing?}
 
 B --> C{Any exclusion criteria present?}
 
 C -- No --> D[Use Extended-Interval Dosing]
 
-C -- Yes --> E{Which exclusion applies?}
+C -- Yes --> E{Identify exclusion type}
 
-E -- Gram-positive synergy --> F[Conventional dosing (e.g., endocarditis)]
+E -- Gram-positive synergy --> F[Conventional dosing e.g. endocarditis]
 
-E -- Renal insufficiency / AKI --> F
+E -- Renal insufficiency or AKI --> F
 
 E -- Hemodialysis --> G[Refer to HD dosing protocol]
 
