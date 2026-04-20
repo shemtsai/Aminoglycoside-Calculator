@@ -37,23 +37,24 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    %% Step 1: Using spacers to force a wide rectangle
-    Start["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Step 1: EI Eligibility Checklist</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection"] --> B{Any Exclusions<br/>Present?}
+    %% Step 1: Extra-wide header to force a horizontal rectangle
+    Start["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Step 1: EI Eligibility Checklist</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection"] --> B{Any Exclusions<br/>Present?}
     
     style Start fill:#fff9c4,stroke:#fbc02d,text-align:left
 
-    %% The 'No' Path
-    B -- "No" --> EI["&nbsp;&nbsp;&nbsp;<b>Extended-Interval Dosing</b>&nbsp;&nbsp;&nbsp;"]
+    %% The 'No' Path (Stretched Banner)
+    B -- "No" --> EI["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Extended-Interval Dosing</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
 
     %% The 'Yes' Path
     B -- "Yes" --> C{"Is it Synergy, AKI,<br/>or CrCl 20?"}
     
-    C -- "Yes" --> Conv["&nbsp;&nbsp;&nbsp;<b>Conventional Dosing</b>&nbsp;&nbsp;&nbsp;"]
+    %% Conventional Dosing (Stretched Banner)
+    C -- "Yes" --> Conv["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Conventional Dosing</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
     %% Step 3: Wide referral box
-    C -- "No" --> D["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Refer to Specific Dosing Section</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
+    C -- "No" --> D["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Refer to Specific Dosing Section</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
     
     style D fill:#e1f5fe,stroke:#01579b,text-align:left
 ```
