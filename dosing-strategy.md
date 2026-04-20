@@ -39,7 +39,7 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 ```mermaid
 flowchart TD
     %% Step 1: Initial Checklist
-    Start["<b>Step 1: Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- AKI with Unstable Renal Function<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy /HD/PD/CRRT/<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- Mycobacterial Infections"] 
+    Start["<b>Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- AKI with Unstable Renal Function<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy /HD/PD/CRRT/<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- Mycobacterial Infections"] 
     
     Start --> B{Exclusions<br/>Present?}
     
