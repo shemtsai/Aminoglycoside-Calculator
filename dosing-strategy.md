@@ -49,17 +49,18 @@ flowchart LR
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
     style Main_Path fill:none,stroke:none
 
-    %% The "Yes" path leads to the List, then the List leads to Identify Type
+    %% The "Yes" path leads to the List
     Criteria -- Yes --> List[Exclusion Criteria:<br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI<br/>- Hemodialysis / CRRT<br/>- Unstable renal function<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection]
     style List fill:#fff9c4,stroke:#fbc02d,text-align:left
 
-    %% Identify Type now branches from the List box
+    %% Identify Type logic with a default
     List --> ExclusionType{Identify Type}
 
-    ExclusionType --> F[<b>Conventional Dosing</b>]
+    %% Default Path (Synergy, AKI, or other)
+    ExclusionType -- "All other exclusions<br/>(Synergy / AKI)" --> F[<b>Conventional Dosing</b>]
     style F fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
-    %% Specialty protocols on the far right
+    %% Specialty protocols branch out
     subgraph Specialty_Protocols [Specialty Dosing Protocols]
         direction TB
         G[Hemodialysis]
