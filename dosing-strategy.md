@@ -37,29 +37,21 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    %% Step 1: Initial Screen
-    A[<b>Step 1: EI Eligibility</b><br/>Check Exclusion List:<br/>- Synergy/AKI/Low CrCl<br/>- HD/CRRT<br/>- Pregnancy/Neonatal<br/>- Surgery/NTM] --> B{Any Exclusions<br/>Present?}
-    style A fill:#fff9c4,stroke:#fbc02d,text-align:left
+    %% Step 1: Initial Screening
+    Start[<b>Step 1: EI Eligibility Checklist</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl <= 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection] --> B{Any Exclusions<br/>Present?}
+    style Start fill:#fff9c4,stroke:#fbc02d,text-align:left
 
     %% Path to EI
     B -- No --> EI[<b>Extended-Interval Dosing</b>]
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
 
-    %% Step 2: The Major Exclusions
-    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl < 20?}
+    %% Step 2: Major Clinical Exclusions
+    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl <= 20?}
     
     C -- Yes --> Conv[<b>Conventional Dosing</b>]
     style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
-    %% Step 3: The Specialty Referrals
-    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/><i>or Contact ID Pharmacy</i>]
-    style D fill:#e1f5fe,stroke:#01579b
-
-    %% Branching out to specialty nodes for clarity
-    direction LR
-    D --> G[Hemodialysis]
-    D --> H[CRRT]
-    D --> I[Surgical Prophylaxis]
-    D --> J[Neonatal]
-    D --> K[NTM Section]
+    %% Step 3: Specialty Sections
+    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/><i>(or Contact ID Pharmacy)</i><br/><br/>• Hemodialysis<br/>• CRRT<br/>• Surgical Prophylaxis<br/>• Neonatal Population<br/>• NTM Infections]
+    style D fill:#e1f5fe,stroke:#01579b,text-align:left
 ```
