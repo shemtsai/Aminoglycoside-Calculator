@@ -36,41 +36,30 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 ## 4. Flowchart
 
 ```mermaid
-flowchart LR
-    Start([Start: Aminoglycoside Evaluation]) --> Criteria[<b>Exclusion Criteria Present?</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI<br/>- Hemodialysis / CRRT<br/>- Unstable renal function<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection]
-    
-    style Criteria fill:#fff9c4,stroke:#fbc02d,text-align:left
+flowchart TD
+    %% Step 1: Initial Screen
+    A[<b>Step 1: EI Eligibility</b><br/>Check Exclusion List:<br/>- Synergy/AKI/Low CrCl<br/>- HD/CRRT<br/>- Pregnancy/Neonatal<br/>- Surgery/NTM] --> B{Any Exclusions<br/>Present?}
+    style A fill:#fff9c4,stroke:#fbc02d,text-align:left
 
-    %% THE VERTICAL DROP
-    subgraph Main_Path [ ]
-        direction TB
-        Criteria
-        EI[<b>Extended-Interval Dosing</b>]
-    end
-    Criteria -- "No (None present)" --> EI
+    %% Path to EI
+    B -- No --> EI[<b>Extended-Interval Dosing</b>]
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
-    style Main_Path fill:none,stroke:none
 
-    %% THE HORIZONTAL BRANCH
-    Criteria -- "Yes (One or more present)" --> ExclusionType{Identify Type}
+    %% Step 2: The Major Exclusions
+    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl < 20?}
+    
+    C -- Yes --> Conv[<b>Conventional Dosing</b>]
+    style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
-    %% Default Path
-    ExclusionType -- "All other exclusions<br/>(Synergy / AKI)" --> F[<b>Conventional Dosing</b>]
-    style F fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    %% Step 3: The Specialty Referrals
+    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/><i>or Contact ID Pharmacy</i>]
+    style D fill:#e1f5fe,stroke:#01579b
 
-    %% Specialty protocols branch out
-    subgraph Specialty_Protocols [Specialty Dosing Protocols]
-        direction TB
-        G[Hemodialysis]
-        H[CRRT]
-        I[Surgical Prophylaxis]
-        J[Neonatal]
-        K[NTM Section]
-    end
-
-    ExclusionType --> G
-    ExclusionType --> H
-    ExclusionType --> I
-    ExclusionType --> J
-    ExclusionType --> K
+    %% Branching out to specialty nodes for clarity
+    direction LR
+    D --> G[Hemodialysis]
+    D --> H[CRRT]
+    D --> I[Surgical Prophylaxis]
+    D --> J[Neonatal]
+    D --> K[NTM Section]
 ```
