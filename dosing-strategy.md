@@ -16,7 +16,7 @@ flowchart TD
     %% Final Outcomes
     C -- Yes --> Conv["<b>Conventional Dosing</b>"]
     
-    C -- No --> D["<b>Refer to Specific Dosing Section</b><br/>Contact ID Pharmacy for other indications<br/><br/>- Renal Replacement /HD/PD/CRRT/<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
+    C -- No --> D["<b>Refer to Specific Dosing Section</b><br/>Contact ID Pharmacy for other indications<br/><br/>- Renal Replacement (HD/PD/CRRT)<br/>- Surgical Prophylaxis<br/>- Neonatal<br/>- Mycobacterial Infections"]
 
     %% STYLING SECTION
     classDef wideBox min-width:400px,text-align:left;
