@@ -37,23 +37,23 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    %% Step 1: The wide checklist box
-    Start["<b>Step 1: EI Eligibility Checklist</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection"] --> B{Any Exclusions<br/>Present?}
+    %% Step 1: Using spacers to force a wide rectangle
+    Start["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Step 1: EI Eligibility Checklist</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection"] --> B{Any Exclusions<br/>Present?}
     
     style Start fill:#fff9c4,stroke:#fbc02d,text-align:left
 
     %% The 'No' Path
-    B -- "No" --> EI[<b>Extended-Interval Dosing</b>]
+    B -- "No" --> EI["&nbsp;&nbsp;&nbsp;<b>Extended-Interval Dosing</b>&nbsp;&nbsp;&nbsp;"]
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
 
-    %% The 'Yes' Path to secondary screening
+    %% The 'Yes' Path
     B -- "Yes" --> C{"Is it Synergy, AKI,<br/>or CrCl 20?"}
     
-    C -- "Yes" --> Conv[<b>Conventional Dosing</b>]
+    C -- "Yes" --> Conv["&nbsp;&nbsp;&nbsp;<b>Conventional Dosing</b>&nbsp;&nbsp;&nbsp;"]
     style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
-    %% The 'No' path to specialty references
-    C -- "No" --> D["<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
+    %% Step 3: Wide referral box
+    C -- "No" --> D["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Refer to Specific Dosing Section</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
     
     style D fill:#e1f5fe,stroke:#01579b,text-align:left
 ```
