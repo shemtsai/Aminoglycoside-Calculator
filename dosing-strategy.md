@@ -38,43 +38,21 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    %% Step 1: Initial Triage
-    Triage{"Step 1: Primary Triage
-    Adult Patient AND
-    Stable Renal Function AND
-    CrCl > 20 mL/min?"} 
+    %% Step 1: Initial Checklist with the new order
+    Start[<b>Step 1: Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- Unstable Renal Function / AKI<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy / HD / CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM / Mycobacterial Infections] 
     
-    %% Standard Path
-    Triage -- "Yes" --> Start[Step 2: Check Final Exclusions
-    - Gram-positive synergy
-    - Renal Replacement Therapy
-    - HD / PD / CRRT
-    - Surgical Prophylaxis
-    - Neonatal Population
-    - NTM / Mycobacterial Infections]
+    Start --> B{Any Exclusions<br/>Present?}
+    
+    %% Path to EI
+    B -- No --> EI[<b>Extended-Interval Dosing</b>]
 
-    %% Immediate Diversion
-    Triage -- "No" --> C
-
-    %% Final Check for EI
-    Start --> B{Any Exclusions
-    Present?}
+    %% Path to second decision
+    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl < 20?}
     
-    B -- No --> EI[Extended-Interval Dosing]
-    B -- Yes --> C{Is it Synergy, AKI,
-    or CrCl < 20?}
+    %% Final Outcomes
+    C -- Yes --> Conv[<b>Conventional Dosing</b>]
     
-    %% Outcomes
-    C -- Yes --> Conv[Conventional Dosing]
-    
-    C -- No --> D[Refer to Specific Dosing Section
-    or Contact ID Pharmacy
-    
-    - Hemodialysis / PD
-    - CRRT
-    - Surgical Prophylaxis
-    - Neonatal Population
-    - NTM Infections]
+    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Renal Replacement (HD/PD/CRRT)<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
 
     %% STYLING SECTION
     classDef wideBox min-width:400px,text-align:left;
@@ -83,10 +61,9 @@ flowchart TD
 
     class Start,D wideBox;
     class EI,Conv outcomeBox;
-    class Triage,B,C diamond;
+    class B,C diamond;
 
     %% Individual Colors
-    style Triage fill:#e8eaf6,stroke:#3f51b5
     style Start fill:#fff9c4,stroke:#fbc02d
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
     style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
