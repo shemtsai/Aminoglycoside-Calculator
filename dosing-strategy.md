@@ -47,7 +47,7 @@ flowchart TD
     B -- No --> EI["<b>Extended-Interval Dosing</b>"]
 
     %% Path to second decision
-    B -- Yes --> C{"Indication of Gram-positive synergy<br/>OR CrCl < 20 not on renal replacement?"}
+    B -- Yes --> C{"Gram-positive synergy<br/>OR CrCl < 20 not on renal replacement?"}
     
     %% Final Outcomes
     C -- Yes --> Conv["<b>Conventional Dosing</b>"]
