@@ -34,28 +34,47 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 ---
 
 ## 4. Flowchart
+# Aminoglycoside Dosing Algorithm
 
 ```mermaid
 flowchart TD
     %% Step 1: Initial Triage
-    Triage{"<b>Step 1: Primary Triage</b><br/>Adult Patient AND<br/>Stable Renal Function AND<br/>CrCl > 20 mL/min?"} 
+    Triage{"Step 1: Primary Triage
+    Adult Patient AND
+    Stable Renal Function AND
+    CrCl > 20 mL/min?"} 
     
     %% Standard Path
-    Triage -- "Yes" --> Start[<b>Step 2: Check Final Exclusions</b><br/>- Gram-positive synergy<br/>- Renal Replacement Therapy / HD / CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM / Mycobacterial Infections]
+    Triage -- "Yes" --> Start[Step 2: Check Final Exclusions
+    - Gram-positive synergy
+    - Renal Replacement Therapy
+    - HD / PD / CRRT
+    - Surgical Prophylaxis
+    - Neonatal Population
+    - NTM / Mycobacterial Infections]
 
-    %% Immediate Diversion for non-standard adults
+    %% Immediate Diversion
     Triage -- "No" --> C
 
     %% Final Check for EI
-    Start --> B{Any Exclusions<br/>Present?}
+    Start --> B{Any Exclusions
+    Present?}
     
-    B -- No --> EI[<b>Extended-Interval Dosing</b>]
-    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl < 20?}
+    B -- No --> EI[Extended-Interval Dosing]
+    B -- Yes --> C{Is it Synergy, AKI,
+    or CrCl < 20?}
     
     %% Outcomes
-    C -- Yes --> Conv[<b>Conventional Dosing</b>]
+    C -- Yes --> Conv[Conventional Dosing]
     
-    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Renal Replacement (HD/PD/CRRT)<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
+    C -- No --> D[Refer to Specific Dosing Section
+    or Contact ID Pharmacy
+    
+    - Hemodialysis / PD
+    - CRRT
+    - Surgical Prophylaxis
+    - Neonatal Population
+    - NTM Infections]
 
     %% STYLING SECTION
     classDef wideBox min-width:400px,text-align:left;
