@@ -37,33 +37,37 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    %% Step 1: Initial Checklist
-    Start[<b>Step 1: EI Eligibility Checklist</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection] 
+    %% Step 1: Initial Triage
+    Triage{"<b>Step 1: Primary Triage</b><br/>Adult Patient AND<br/>Stable Renal Function AND<br/>CrCl > 20 mL/min?"} 
     
+    %% Standard Path
+    Triage -- "Yes" --> Start[<b>Step 2: Check Final Exclusions</b><br/>- Gram-positive synergy<br/>- Renal Replacement Therapy / HD / CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM / Mycobacterial Infections]
+
+    %% Immediate Diversion for non-standard adults
+    Triage -- "No" --> C
+
+    %% Final Check for EI
     Start --> B{Any Exclusions<br/>Present?}
     
-    %% Path to EI
     B -- No --> EI[<b>Extended-Interval Dosing</b>]
-
-    %% Path to second decision
-    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl 20?}
+    B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl < 20?}
     
-    %% Final Outcomes
+    %% Outcomes
     C -- Yes --> Conv[<b>Conventional Dosing</b>]
     
-    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
+    C -- No --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Renal Replacement (HD/PD/CRRT)<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
 
     %% STYLING SECTION
-    %% min-width forces the wide rectangular look
     classDef wideBox min-width:400px,text-align:left;
     classDef outcomeBox min-width:300px,text-align:center;
     classDef diamond padding:20px;
 
     class Start,D wideBox;
     class EI,Conv outcomeBox;
-    class B,C diamond;
+    class Triage,B,C diamond;
 
     %% Individual Colors
+    style Triage fill:#e8eaf6,stroke:#3f51b5
     style Start fill:#fff9c4,stroke:#fbc02d
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
     style Conv fill:#f8d7da,stroke:#dc3545,stroke-width:2px
