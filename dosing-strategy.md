@@ -38,21 +38,21 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart TD
-    %% Step 1: Initial Checklist
-    Start["<b>Step 1: Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- Unstable Renal Function / AKI<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy / HD / CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM / Mycobacterial Infections"] 
+
+Start[<b>Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- AKI with Unstable Renal Function<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy (HD/PD/CRRT)<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- Mycobacterial Infections]
     
-    Start --> B{Any Exclusions<br/>Present?}
+    Start --> B{Exclusions<br/>Present?}
     
     %% Path to EI
     B -- No --> EI["<b>Extended-Interval Dosing</b>"]
 
     %% Path to second decision
-    B -- Yes --> C{"Is it Synergy, AKI,<br/>or CrCl < 20?"}
+    B -- Yes --> C{"Indication of Gram-positive synergy or CrCl < 20 not on renal replacement therapy?"}
     
     %% Final Outcomes
     C -- Yes --> Conv["<b>Conventional Dosing</b>"]
     
-    C -- No --> D["<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Renal Replacement / HD / PD / CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
+    C -- No --> D["<b>Refer to Specific Dosing Section</b><br/>(Contact ID Pharmacy if any other indications)<br/><br/>- Renal Replacement  (HD/PD/CRRT)<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections"]
 
     %% STYLING SECTION
     classDef wideBox min-width:400px,text-align:left;
