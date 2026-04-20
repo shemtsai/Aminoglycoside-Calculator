@@ -37,26 +37,24 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ```mermaid
 flowchart LR
-    Start([Start: Aminoglycoside Evaluation]) --> Criteria{Exclusion Criteria<br/>Present?}
+    Start([Start: Aminoglycoside Evaluation]) --> Criteria[<b>Exclusion Criteria Present?</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI<br/>- Hemodialysis / CRRT<br/>- Unstable renal function<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection]
     
-    %% The "No" path drops vertically
+    style Criteria fill:#fff9c4,stroke:#fbc02d,text-align:left
+
+    %% THE VERTICAL DROP
     subgraph Main_Path [ ]
         direction TB
         Criteria
         EI[<b>Extended-Interval Dosing</b>]
     end
-    Criteria -- No --> EI
+    Criteria -- "No (None present)" --> EI
     style EI fill:#d4edda,stroke:#28a745,stroke-width:2px
     style Main_Path fill:none,stroke:none
 
-    %% The "Yes" path leads to the List
-    Criteria -- Yes --> List[Exclusion Criteria:<br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI<br/>- Hemodialysis / CRRT<br/>- Unstable renal function<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection]
-    style List fill:#fff9c4,stroke:#fbc02d,text-align:left
+    %% THE HORIZONTAL BRANCH
+    Criteria -- "Yes (One or more present)" --> ExclusionType{Identify Type}
 
-    %% Identify Type logic with a default
-    List --> ExclusionType{Identify Type}
-
-    %% Default Path (Synergy, AKI, or other)
+    %% Default Path
     ExclusionType -- "All other exclusions<br/>(Synergy / AKI)" --> F[<b>Conventional Dosing</b>]
     style F fill:#f8d7da,stroke:#dc3545,stroke-width:2px
 
