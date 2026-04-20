@@ -35,34 +35,33 @@ Patients are eligible for EI dosing unless any exclusion criteria below are pres
 
 ## 4. Flowchart
 
-# Aminoglycoside Extended-Interval (EI) Dosing Algorithm
-
 ```mermaid
-flowchart LR
-    %% Main Checklist
+flowchart TD
+    %% Step 1: Initial Checklist
     Start[<b>Step 1: EI Eligibility Checklist</b><br/>- Gram-positive synergy<br/>- Renal insufficiency / AKI / CrCl 20<br/>- Hemodialysis / CRRT<br/>- Surgical prophylaxis<br/>- Pregnancy / Neonatal<br/>- NTM infection] 
     
-    %% First Decision
     Start --> B{Any Exclusions<br/>Present?}
     
-    %% Success Path
+    %% Path to EI
     B -- No --> EI[<b>Extended-Interval Dosing</b>]
 
-    %% Second Decision
+    %% Path to second decision
     B -- Yes --> C{Is it Synergy, AKI,<br/>or CrCl 20?}
     
-    %% Outcomes
+    %% Final Outcomes
     C -- Yes --> Conv[<b>Conventional Dosing</b>]
     
     C -- No --> D[<b>Refer to Specific Dosing Section</b><br/>or Contact ID Pharmacy<br/><br/>- Hemodialysis<br/>- CRRT<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- NTM Infections]
 
     %% STYLING SECTION
-    %% Using min-width ensures the boxes feel substantial and horizontal
-    classDef wideBox min-width:350px,text-align:left;
-    classDef outcomeBox min-width:250px,text-align:center;
+    %% min-width forces the wide rectangular look
+    classDef wideBox min-width:400px,text-align:left;
+    classDef outcomeBox min-width:300px,text-align:center;
+    classDef diamond padding:20px;
 
     class Start,D wideBox;
     class EI,Conv outcomeBox;
+    class B,C diamond;
 
     %% Individual Colors
     style Start fill:#fff9c4,stroke:#fbc02d
