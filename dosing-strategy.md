@@ -3,7 +3,7 @@
 ```mermaid
 flowchart TD
     %% Step 1: Initial Checklist
-    Start["<b>Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- AKI with Unstable Renal Function<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy /HD/PD/CRRT/<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- Mycobacterial Infections"] 
+    Start["<b>Extended Interval Exclusion Criteria</b><br/>- Gram-positive synergy<br/>- CrCl < 20 mL/min<br/>- Renal Replacement Therapy /HD/PD/CRRT/<br/>- Surgical Prophylaxis<br/>- Neonatal Population<br/>- Mycobacterial Infections"] 
     
     Start --> B[Exclusions<br/>Present?]
     
@@ -11,7 +11,7 @@ flowchart TD
     B -- No --> EI["<b>Extended-Interval Dosing</b>"]
 
     %% Path to second decision
-    B -- Yes --> C["Gram-positive synergy<br/>OR CrCl < 20 not on renal replacement?"]
+    B -- Yes --> C["Gram-positive synergy OR CrCl < 20 not on renal replacement?"]
     
     %% Final Outcomes
     C -- Yes --> Conv["<b>Conventional Dosing</b>"]
