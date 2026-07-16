@@ -808,20 +808,21 @@ Do not assume or invent patient identifiers, and none were provided.`;
       body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
     });
     if (!res.ok) throw new Error('Request failed (' + res.status + ')');
-    const data = await res.json();
-    const text = data?.content?.[0]?.text || 'No response received.';
+const data = await res.json();
+const text = data?.content?.[0]?.text || 'No response received.';
+const wasTruncated = data?.stop_reason === 'max_tokens';
 
-    const existing = document.getElementById(panelId + '-ai-box');
-    if (existing) existing.remove();
+const existing = document.getElementById(panelId + '-ai-box');
+if (existing) existing.remove();
 
-    container.insertAdjacentHTML('beforeend', `
-      <div id="${panelId}-ai-box" class="snippet-container">
-        <div class="snippet-header">
-          <label>AI Interpretation — review before use, not a substitute for clinical judgment</label>
-          <button class="copy-btn" onclick="copyToClipboard('${panelId}-ai-text')">Copy</button>
-        </div>
-        <div id="${panelId}-ai-text" class="snippet-text">${text}</div>
-      </div>`);
+container.insertAdjacentHTML('beforeend', `
+  <div id="${panelId}-ai-box" class="snippet-container">
+    <div class="snippet-header">
+      <label>AI Interpretation — review before use, not a substitute for clinical judgment</label>
+      <button class="copy-btn" onclick="copyToClipboard('${panelId}-ai-text')">Copy</button>
+    </div>
+    <div id="${panelId}-ai-text" class="snippet-text">${text}${wasTruncated ? '<br><br><em style="color:#dc2626;">⚠ Response was cut off (hit token limit). Increase max_tokens in worker.js.</em>' : ''}</div>
+  </div>`);
   } catch (err) {
     toast('⚠ AI interpretation failed: ' + err.message);
   } finally {
