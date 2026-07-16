@@ -821,7 +821,7 @@ container.insertAdjacentHTML('beforeend', `
       <label>AI Interpretation — review before use, not a substitute for clinical judgment</label>
       <button class="copy-btn" onclick="copyToClipboard('${panelId}-ai-text')">Copy</button>
     </div>
-    <div id="${panelId}-ai-text" class="snippet-text">${text}${wasTruncated ? '<br><br><em style="color:#dc2626;">⚠ Response was cut off (hit token limit). Increase max_tokens in worker.js.</em>' : ''}</div>
+    <div id="${panelId}-ai-text" class="snippet-text">${text}${wasTruncated ? '<br><br><em style="color:#dc2626;">⚠ Response was cut off (hit token limit). AKA I am too poor sorry D: </em>' : ''}</div>
   </div>`);
   } catch (err) {
     toast('⚠ AI interpretation failed: ' + err.message);
