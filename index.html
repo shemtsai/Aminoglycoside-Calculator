@@ -759,46 +759,19 @@ async function getAIInterpretation(snippetData, panelId, btnEl) {
   btnEl.disabled = true;
   btnEl.textContent = 'Thinking…';
 
-  const prompt = `You are an infectious diseases clinical pharmacist with PK/PD subspecialty expertise, reviewing an 
-aminoglycoside pharmacokinetic calculation for a hospital pharmacist colleague. Your job is to add 
-genuine clinical insight beyond restating the numbers — the kind of pearl an ID/PK-PD-trained pharmacist 
-would offer on rounds.
+const prompt = `You are an ID pharmacist with PK/PD expertise reviewing an aminoglycoside PK calc for a colleague. Add genuine clinical insight, not a restatement of numbers.
 
-Calculated parameters (all derived from the same first-order one-compartment equations — do not comment 
-on their internal mathematical consistency, as this is guaranteed by construction):
-- ke: ${snippetData.ke} hr⁻¹
-- t1/2: ${snippetData.thalf} hr
-- Vd: ${snippetData.vd} L
-- Clearance: ${snippetData.clr} L/hr (${snippetData.clrml} mL/min)
-- Cmax: ${snippetData.cmax} mg/L
-- Cmin: ${snippetData.cmin} mg/L
-- AUC24: ${snippetData.auc} mg·h/L
+Parameters (internally consistent by construction, don't comment on that):
+ke: ${snippetData.ke} hr⁻¹ | t1/2: ${snippetData.thalf} hr | Vd: ${snippetData.vd} L | Cl: ${snippetData.clr} L/hr (${snippetData.clrml} mL/min) | Cmax: ${snippetData.cmax} mg/L | Cmin: ${snippetData.cmin} mg/L | AUC24: ${snippetData.auc} mg·h/L
 
-No weight, dosing regimen, drug identity (e.g., gentamicin vs. amikacin), renal function, or indication 
-was provided. Do not assume or invent these — where a comparison would normally require one of them 
-(e.g., Vd in L/kg), either state the value as an absolute and note the missing denominator, or frame the 
-comparison qualitatively without a fabricated number.
+No weight, regimen, drug identity, renal function, indication, or patient ID given — don't invent these. If a comparison needs one (e.g. Vd in L/kg), state the absolute value and note the missing denominator, or compare qualitatively.
 
-Write 2-4 sentences. Cover:
+Write 2-4 sentences covering:
+1. A pearl comparing ke, Vd, or Cl to population PK norms, noting standard vs. critically ill differences (e.g. capillary leak, augmented renal clearance, AKI) where relevant.
+2. The value most warranting follow-up (prolonged t1/2, elevated Cmin, subtherapeutic Cmax) — lead with whichever most likely changes management, if several apply.
+3. One concrete next monitoring step.
 
-1. One clinical pearl comparing at least one parameter (ke, Vd, or Cl) to established population PK 
-   benchmarks, noting standard vs. critically ill/ICU population differences where relevant (e.g., 
-   increased Vd from capillary leak/fluid resuscitation, altered clearance from augmented renal clearance 
-   or acute kidney injury in septic patients).
-2. Any value that warrants pharmacist follow-up (e.g., prolonged t1/2 suggesting reduced clearance, 
-   elevated Cmin suggesting accumulation/toxicity risk, subtherapeutic Cmax relative to typical 
-   efficacy targets) — if multiple flags are present, lead with the one most likely to change clinical 
-   management.
-3. One concrete next monitoring step (e.g., repeat level timing, renal function trend, dosing interval 
-   adjustment consideration).
-
-Citation requirements: If you reference a specific benchmark, study, or guideline, cite only real, 
-well-established, widely-cited literature or guidelines (e.g., named landmark PK studies, ASHP/IDSA 
-consensus guidelines). If you are not confident a specific citation is accurate, describe the finding 
-in general terms (e.g., "population PK literature suggests...") rather than attaching a fabricated 
-citation. Never invent a study name, author, or year.
-
-Do not assume or invent patient identifiers, and none were provided.`;
+Only cite real, well-established literature/guidelines; if unsure, say "population PK literature suggests..." instead. Never fabricate a citation, study, author, or year.`;
 
   try {
     const res = await fetch(WORKER_URL, {
