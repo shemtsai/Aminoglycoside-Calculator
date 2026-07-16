@@ -1132,7 +1132,7 @@ function optimizeDose() {
       </div>
       <div id="opt-snippet-text" class="snippet-text">${generateClinicalSnippet(optSnippetData)}</div>
     </div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastOptSnippet, 'opt-results', this)">🤖 Get AI Interpretation (testing this right now, don't worry rest of functions/code should still work as previously)</button>`;
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastOptSnippet, 'opt-results', this)">🤖 Get AI Interpretation</button>`;
 
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
