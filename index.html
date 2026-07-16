@@ -722,7 +722,7 @@
 <div id="toast"></div>
 
 <footer>
-  Built by Shemual Tsai · Last updated 4/16/26<br/>
+  Built by Shemual Tsai · Last updated 7/16/26<br/>
   Questions or feedback: <a href="mailto:stsai@houstonmethodist.org">stsai@houstonmethodist.org</a>
 </footer>
 
@@ -744,6 +744,61 @@ Cmax: ${p.cmax} mg/L
 Cmin: ${p.cmin} mg/L
 AUC24: ${p.auc} mg·h/L`;
 }
+// ─────────────────────────────────────────────────
+// AI Interpretation config
+// Point this at the Cloudflare Worker URL you get after deploying worker.js.
+// Do NOT put an Anthropic API key anywhere in this file.
+// ─────────────────────────────────────────────────
+const WORKER_URL = "https://claude-proxy-610692149717.us-south1.run.app";
+
+async function getAIInterpretation(snippetData, panelId, btnEl) {
+  if (!snippetData) { toast('⚠ Calculate results first.'); return; }
+
+  const container = document.getElementById(panelId);
+  const originalLabel = btnEl.textContent;
+  btnEl.disabled = true;
+  btnEl.textContent = 'Thinking…';
+
+  const prompt = `You are assisting a hospital pharmacist reviewing an aminoglycoside pharmacokinetic calculation. Calculated parameters:
+ke: ${snippetData.ke} hr⁻¹
+t1/2: ${snippetData.thalf} hr
+Vd: ${snippetData.vd} L
+Clearance: ${snippetData.clr} L/hr (${snippetData.clrml} mL/min)
+Cmax: ${snippetData.cmax} mg/L
+Cmin: ${snippetData.cmin} mg/L
+AUC24: ${snippetData.auc} mg·h/L
+
+In 3-4 concise sentences suitable as a starting point for a clinical note, comment on whether these values look internally consistent, flag anything that may warrant pharmacist follow-up (e.g., a long half-life that could suggest reduced renal clearance, an elevated trough that could suggest accumulation risk), and note a reasonable next monitoring step. No patient identifiers were provided and none should be assumed or invented.`;
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+    });
+    if (!res.ok) throw new Error('Request failed (' + res.status + ')');
+    const data = await res.json();
+    const text = data?.content?.[0]?.text || 'No response received.';
+
+    const existing = document.getElementById(panelId + '-ai-box');
+    if (existing) existing.remove();
+
+    container.insertAdjacentHTML('beforeend', `
+      <div id="${panelId}-ai-box" class="snippet-container">
+        <div class="snippet-header">
+          <label>AI Interpretation — review before use, not a substitute for clinical judgment</label>
+          <button class="copy-btn" onclick="copyToClipboard('${panelId}-ai-text')">Copy</button>
+        </div>
+        <div id="${panelId}-ai-text" class="snippet-text">${text}</div>
+      </div>`);
+  } catch (err) {
+    toast('⚠ AI interpretation failed: ' + err.message);
+  } finally {
+    btnEl.disabled = false;
+    btnEl.textContent = originalLabel;
+  }
+}
+
 // ─────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────
@@ -948,6 +1003,8 @@ function calculatePK() {
     auc: auc24.toFixed(1)
   };
 
+  window.lastPkSnippet = snippetData;
+
   document.getElementById('pk-results').innerHTML += `
     <div class="snippet-container">
       <div class="snippet-header">
@@ -955,7 +1012,8 @@ function calculatePK() {
         <button class="copy-btn" onclick="copyToClipboard('pk-snippet-text')">Copy</button>
       </div>
       <div id="pk-snippet-text" class="snippet-text">${generateClinicalSnippet(snippetData)}</div>
-    </div>`;
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastPkSnippet, 'pk-results', this)">🤖 Get AI Interpretation</button>`;
 
   const times = linspace(t_inf, tau, 300);
   pkChartInstance = renderChart('pkChart', pkChartInstance, [
@@ -1064,6 +1122,8 @@ function optimizeDose() {
     auc: predAUC24.toFixed(1)
   };
 
+  window.lastOptSnippet = optSnippetData;
+
   document.getElementById('opt-results').innerHTML += `
     <div class="snippet-container">
       <div class="snippet-header">
@@ -1071,7 +1131,8 @@ function optimizeDose() {
         <button class="copy-btn" onclick="copyToClipboard('opt-snippet-text')">Copy</button>
       </div>
       <div id="opt-snippet-text" class="snippet-text">${generateClinicalSnippet(optSnippetData)}</div>
-    </div>`;
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastOptSnippet, 'opt-results', this)">🤖 Get AI Interpretation (testing this right now, don't worry rest of functions/code should still work as previously)</button>`;
 
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
