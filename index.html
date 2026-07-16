@@ -823,7 +823,7 @@ container.insertAdjacentHTML('beforeend', `
     <div id="${panelId}-ai-text" class="snippet-text">${text}${wasTruncated ? '<br><br><em style="color:#dc2626;">⚠ Response was cut off (hit token limit). AKA I am too poor sorry D: </em>' : ''}</div>
   </div>`);
   } catch (err) {
-    toast('⚠ AI interpretation failed: ' + err.message);
+    toast('⚠ AI interpretation failed (if 529, just retry some other time - if any other message let me know so I can troubleshoot): ' + err.message);
   } finally {
     btnEl.disabled = false;
     btnEl.textContent = originalLabel;
