@@ -1013,7 +1013,7 @@ function calculatePK() {
       </div>
       <div id="pk-snippet-text" class="snippet-text">${generateClinicalSnippet(snippetData)}</div>
     </div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastPkSnippet, 'pk-results', this)">🤖 Get AI Interpretation</button>`;
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastPkSnippet, 'pk-results', this)">🤖 Get AI Interpretation (I'm just testing things for fun, feel free to click on this but the output is sort of useless right now lol)</button>`;
 
   const times = linspace(t_inf, tau, 300);
   pkChartInstance = renderChart('pkChart', pkChartInstance, [
@@ -1132,7 +1132,7 @@ function optimizeDose() {
       </div>
       <div id="opt-snippet-text" class="snippet-text">${generateClinicalSnippet(optSnippetData)}</div>
     </div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastOptSnippet, 'opt-results', this)">🤖 Get AI Interpretation</button>`;
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastOptSnippet, 'opt-results', this)">🤖 Get AI Interpretation (I'm just testing things for fun, feel free to click on this but the output is sort of useless right now lol)</button>`;
 
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
