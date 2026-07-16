@@ -746,8 +746,6 @@ AUC24: ${p.auc} mg·h/L`;
 }
 // ─────────────────────────────────────────────────
 // AI Interpretation config
-// Point this at the Cloudflare Worker URL you get after deploying worker.js.
-// Do NOT put an Anthropic API key anywhere in this file.
 // ─────────────────────────────────────────────────
 const WORKER_URL = "https://claude-proxy-610692149717.us-south1.run.app";
 
@@ -1135,8 +1133,7 @@ function optimizeDose() {
         <button class="copy-btn" onclick="copyToClipboard('opt-snippet-text')">Copy</button>
       </div>
       <div id="opt-snippet-text" class="snippet-text">${generateClinicalSnippet(optSnippetData)}</div>
-    </div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastOptSnippet, 'opt-results', this)">🤖 Get AI Interpretation (I'm just testing things for fun, feel free to click on this but the output is sort of useless right now lol)</button>`;
+    </div>;
 
   const times = linspace(0, interval, 400);
   const concs = times.map(t => {
