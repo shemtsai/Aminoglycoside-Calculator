@@ -1014,7 +1014,7 @@ function calculatePK() {
         <button class="copy-btn" onclick="copyToClipboard('pk-snippet-text')">Copy</button>
       </div>
       <div id="pk-snippet-text" class="snippet-text">${generateClinicalSnippet(snippetData)}</div>
-    </div>
+    </div>;
     <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastPkSnippet, 'pk-results', this)">🤖 Get AI Interpretation (I'm just testing things for fun, feel free to click on this but the output is sort of useless right now lol)</button>`;
 
   const times = linspace(t_inf, tau, 300);
