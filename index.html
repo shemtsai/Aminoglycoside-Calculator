@@ -831,7 +831,8 @@ Only cite real, well-established literature/guidelines; if unsure, say "populati
     });
     if (!res.ok) throw new Error('Request failed (' + res.status + ')');
 const data = await res.json();
-const text = data?.content?.[0]?.text || 'No response received.';
+const textBlock = data?.content?.find(block => block.type === 'text');
+const text = textBlock?.text || 'No response received.';
 const wasTruncated = data?.stop_reason === 'max_tokens';
 
 const existing = document.getElementById(panelId + '-ai-box');
