@@ -143,6 +143,31 @@
     box-shadow: 0 0 0 3px rgba(14,116,144,0.12);
     background: #fff;
   }
+  textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: #fafbfd;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    resize: vertical;
+    min-height: 72px;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14,116,144,0.12);
+    background: #fff;
+  }
+  .char-counter {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 4px;
+  }
   .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
   .radio-group {
@@ -588,8 +613,23 @@
     </div>
 
   </div>
+
+  <!-- AI Interpretation card: lives outside #pk-results so recalculating PK params doesn't wipe the button/output -->
+  <div class="card" style="margin-top:20px;">
+    <h3><span class="dot"></span>AI Interpretation</h3>
+    <div class="form-group">
+      <label>Additional clinical context (optional, de-identified only)</label>
+      <textarea id="pk-ai-context" maxlength="600" placeholder="e.g. 78 kg, hypovolemic, critically ill on pressors, culture growing Pseudomonas (MIC 2), Cr trending 0.8 → 1.4 over 48h" oninput="document.getElementById('pk-ai-context-counter').textContent = this.value.length + '/600';"></textarea>
+      <div id="pk-ai-context-counter" class="char-counter">0/600</div>
+      <div style="margin-top:6px;"><em style="color:#dc2626;font-size:0.8rem;">⚠ Do not enter patient name, MRN, DOB, or other identifying information.</em></div>
+    </div>
+    <button class="btn btn-primary" onclick="getAIInterpretation(window.lastPkSnippet, 'pk-ai-panel', this)">🤖 Get AI Interpretation (work in progress, just something for fun now)</button>
+    <div id="pk-ai-panel" style="margin-top:10px;"></div>
+  </div>
+
 </div>
 </div><!-- /tab-pk -->
+
 
 <!-- ════════════ TAB 2 ════════════ -->
 <div id="tab-opt" class="tab-panel">
@@ -757,12 +797,24 @@ async function getAIInterpretation(snippetData, panelId, btnEl) {
   btnEl.disabled = true;
   btnEl.textContent = 'Thinking…';
 
+  // Optional de-identified clinical context (in-memory only, never persisted)
+  const contextEl = document.getElementById('pk-ai-context');
+  const context = contextEl ? contextEl.value.trim() : '';
+
+  const disclaimerLine = context
+    ? `Some clinical context is provided below — use only what is given, don't infer or assume anything beyond it. For anything NOT covered by the provided context (e.g. drug identity, indication, patient ID), don't invent these. If a comparison needs a value not given (e.g. Vd in L/kg without weight), state the absolute value and note the missing denominator, or compare qualitatively.`
+    : `No weight, regimen, drug identity, renal function, indication, or patient ID given — don't invent these. If a comparison needs one (e.g. Vd in L/kg), state the absolute value and note the missing denominator, or compare qualitatively.`;
+
+  const contextBlock = context
+    ? `\n\nAdditional de-identified clinical context provided by the clinician (use only what is given below; do not infer or assume anything beyond it):\n${context}`
+    : '';
+
 const prompt = `You are an ID pharmacist with PK/PD expertise reviewing an aminoglycoside PK calc for a colleague. Add genuine clinical insight, not a restatement of numbers.
 
 Parameters (internally consistent by construction, don't comment on that):
-ke: ${snippetData.ke} hr⁻¹ | t1/2: ${snippetData.thalf} hr | Vd: ${snippetData.vd} L | Cl: ${snippetData.clr} L/hr (${snippetData.clrml} mL/min) | Cmax: ${snippetData.cmax} mg/L | Cmin: ${snippetData.cmin} mg/L | AUC24: ${snippetData.auc} mg·h/L
+ke: ${snippetData.ke} hr⁻¹ | t1/2: ${snippetData.thalf} hr | Vd: ${snippetData.vd} L | Cl: ${snippetData.clr} L/hr (${snippetData.clrml} mL/min) | Cmax: ${snippetData.cmax} mg/L | Cmin: ${snippetData.cmin} mg/L | AUC24: ${snippetData.auc} mg·h/L${contextBlock}
 
-No weight, regimen, drug identity, renal function, indication, or patient ID given — don't invent these. If a comparison needs one (e.g. Vd in L/kg), state the absolute value and note the missing denominator, or compare qualitatively.
+${disclaimerLine}
 
 Write 2-4 sentences covering:
 1. A pearl comparing ke, Vd, or Cl to population PK norms, noting standard vs. critically ill differences (e.g. capillary leak, augmented renal clearance, AKI) where relevant.
@@ -794,7 +846,7 @@ container.insertAdjacentHTML('beforeend', `
     <div id="${panelId}-ai-text" class="snippet-text">${text}${wasTruncated ? '<br><br><em style="color:#dc2626;">⚠ Response was cut off (hit token limit). AKA I am too poor sorry D: </em>' : ''}</div>
   </div>`);
   } catch (err) {
-    toast('⚠ AI interpretation failed (if 529, just retry some other time - if any other message let me know so I can troubleshoot): ' + err.message);
+    toast('⚠ AI interpretation failed (if you let me know error code I can troubleshoot): ' + err.message);
   } finally {
     btnEl.disabled = false;
     btnEl.textContent = originalLabel;
@@ -1014,8 +1066,7 @@ function calculatePK() {
         <button class="copy-btn" onclick="copyToClipboard('pk-snippet-text')">Copy</button>
       </div>
       <div id="pk-snippet-text" class="snippet-text">${generateClinicalSnippet(snippetData)}</div>
-    </div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="getAIInterpretation(window.lastPkSnippet, 'pk-results', this)">🤖 Get AI Interpretation (I'm just testing things for fun, feel free to click on this but the output is sort of useless right now lol)</button>`;
+    </div>`;
 
   const times = linspace(t_inf, tau, 300);
   pkChartInstance = renderChart('pkChart', pkChartInstance, [
